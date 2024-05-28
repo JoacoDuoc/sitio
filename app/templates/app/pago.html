@@ -1,0 +1,150 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block contenido %}
+
+    <section class="vh-150 gradient-custom" ;">
+            <div class="container py-5 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body p-4">
+
+                                <div class="row">
+
+                                    <div class="col-lg-7">
+                                        <h5 class="mb-3"><a href="index.html" class="text-body"><i
+                                                    class="fas fa-long-arrow-alt-left me-2"></i>Seguir Comprando</a>
+                                        </h5>
+                                        <hr>
+
+                                        <div class="d-flex justify-content-between align-items-center mb-4">
+                                            <div>
+                                                <p class="mb-1">Carrito</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex flex-row align-items-center">
+                                                        <div>
+                                                            <img src="img/minecraft.jpg" class="img-fluid rounded-3"
+                                                                alt="Shopping item" style="width: 65px;">
+                                                        </div>
+                                                        <div class="ms-3">
+                                                            <h5>Minecraft</h5>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-row align-items-center">
+                                                        <div style="width: 50px;">
+                                                            <h5 class="fw-normal mb-0 mx-1">1</h5>
+                                                        </div>
+                                                        <div style="width: 80px;">
+                                                            <h5 class="mb-0">$9000</h5>
+                                                        </div>
+                                                        <a href="#!" style="color: #cecece;"><i
+                                                                class="fas fa-trash-alt"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <form action="FinPago.html">
+                                        <div class="card bg-primary text-white rounded-3">
+                                            <div class="card-body">
+                                            
+                                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                                    <h5 class="mb-0">Detalles de la Tarjeta</h5>
+                                                </div>
+                                            
+                                                <p class="small mb-2">Tarjeta</p>
+                                                <a href="#!" type="submit" class="text-white"><i
+                                                        class="fab fa-cc-mastercard fa-2x me-2"></i></a>
+                                                <a href="#!" type="submit" class="text-white"><i
+                                                        class="fab fa-cc-visa fa-2x me-2"></i></a>
+                                                <a href="#!" type="submit" class="text-white"><i
+                                                        class="fab fa-cc-paypal fa-2x"></i></a>
+
+                                                <form class="mt-4" >
+                                                    <div data-mdb-input-init class="form-outline form-white mb-4">
+                                                        <p id="mensaje"></p>
+                                                        <input type="text" id="NombreTitular" 
+                                                            class="form-control form-control-lg" siez="17"
+                                                            placeholder="Nombre del Titular" required/>
+                                                        <label class="form-label" for="typeName">Nombre del
+                                                            Titular</label>
+                                                    </div>
+
+                                                    <div data-mdb-input-init class="form-outline form-white mb-4">
+                                                        <input type="text" id="num_tarjeta"
+                                                            class="form-control form-control-lg" siez="17"
+                                                            placeholder="1234 5678 9012 3457" minlength="19"
+                                                            maxlength="19" required/>
+                                                        <label class="form-label" for="typeText">N° de Tarjeta</label>
+                                                    </div>
+
+                                                    <div class="row mb-4">
+                                                        <div class="col-md-3">
+                                                            <div data-mdb-input-init class="form-outline form-white">
+                                                                <input type="text" id="mes"
+                                                                    class="form-control form-control-lg"
+                                                                    placeholder="MM" size="2" id="exp"
+                                                                    minlength="2" maxlength="2" required/>
+                                                                <label class="form-label" for="typeExp"> Mes</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <div data-mdb-input-init class="form-outline form-white">
+                                                                <input type="text" id="año"
+                                                                    class="form-control form-control-lg"
+                                                                    placeholder="YYYY" size="4" id="exp"
+                                                                    minlength="4" maxlength="4" required/>
+                                                                <label class="form-label" for="typeExp"> Año</label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <div data-mdb-input-init class="form-outline form-white">
+                                                                <input type="password" id="cvv"
+                                                                    class="form-control form-control-lg"
+                                                                    placeholder="&#9679;&#9679;&#9679;" size="1"
+                                                                    minlength="3" maxlength="3" required/>
+                                                                <label class="form-label" for="typeText">CVVS</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+
+                                                <hr class="my-4">
+
+                                                <div class="d-flex justify-content-between">
+                                                    <p class="mb-2">Subtotal</p>
+                                                    <p class="mb-2">$9000</p>
+                                                </div>
+                                                
+                                               
+                                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Comprar</button>
+                                    
+                                                
+                                            </form>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+        <script src="js/Form_pago.js"></script>
+
+{% endblock contenido %}

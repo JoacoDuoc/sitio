@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio de Sesion</title>
+</head>
+
+<body>
+  <section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-dark text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+
+              <div class="mb-md-5 mt-md-4 pb-5">
+
+                <form action="EmailRecuperarContraseña.html">
+                  <h2 class="fw-bold mb-2 text-uppercase">Recuperar Contraseña</h2>
+                  <p class="text-white-50 mb-5">Ingrese su correo de recuperación!</p>
+
+                  <div data-mdb-input-init class="form-outline form-white mb-4">
+
+                    <div class="text-danger mb-2"> <a id="resultado"></a> </div>
+                    <input type="email" id="typeEmailRecoveryX" class="form-control form-control-lg" required onkeyup="RecuperarEmail(this)"/>
+                    <label class="form-label" for="typeEmailRecoveryX">Correo</label>
+
+                  </div>
+
+                  <a href="EmailRecuperarContraseña.html"><button data-mdb-button-init data-mdb-ripple-init
+                      class="btn btn-outline-light btn-lg px-5" type="submit">Recuperar Contraseña</button>
+                  </a>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="js/Form_Sesion.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block contenido %}
+
+    <div class="container my-4">  
+
+        <div class="row">   
+            <div class="col-sm-6 my-3 d-flex">
+              <input class="form-control me-2" type="text" placeholder="Search">
+              <a class="btn btn-primary" href="Filtro.html" role="button">Buscar</a>
+            </div>
+    
+            <div class="col-sm-6 my-3">
+              <div class="dropdown ">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                  Ordernar por
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="Filtro.html">Nombre</a></li>
+                  <li><a class="dropdown-item" href="Filtro.html">Fecha</a></li>
+                  <li><a class="dropdown-item" href="Filtro.html">Categoria</a></li>
+                </ul>
+    
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                  Precio
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="Filtro.html">Menor precio a mayor</a></li>
+                  <li><a class="dropdown-item" href="Filtro.html">Mayor precio a menor</a></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+
+      <h2>Historial de compra</h2>
+
+      <div class="d-flex row bg-dark me-5 mx-1" ">
+    
+            <div class=" col-sm-4">
+        <img class="img-fluid" src="img/minecraft.jpg" width="400" height="200">
+      </div>
+
+      <div class="col-sm-8">
+        <div class="my-2">
+          <h3> Titulo del videojuego</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+            esse cillum dolore eu </p>
+          <i class="fa-brands fa-xbox"></i>
+          <i class="fa-brands fa-steam"></i>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+
+{% endblock contenido %}

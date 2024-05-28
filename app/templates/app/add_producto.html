@@ -1,0 +1,49 @@
+{% extends "app/base.html" %}
+{% load static %}
+
+{% block contenido %}
+
+<div class="container">
+    <form action="add_producto.html">
+
+        <div class="form-group"> <!-- Nombre del producto -->
+            <label for="nomb_prod" class="control-label">Nombre</label>
+            <input type="text" class="form-control" id="id_prod" name="nomb_prod" placeholder="Nombre del producto" required>
+        </div>    
+    
+        <div class="form-group"> <!-- Imagen -->
+            <label for="id_img" class="control-label">Imagen del Producto</label>
+            <input type="file" class="form-control" id="id_img" name="imagenProd" placeholder="Insertar Imagen" required>
+        </div>                    
+                                
+        <div class="form-group"> <!-- Precio -->
+            <label for="id_precio" class="control-label">Precio</label>
+            <input type="number" class="form-control" id="id_precio" name="precio" placeholder="Precio del producto" required min="500" max="100000">
+        </div>
+        <div class="form-group"> <!-- Descripcion -->
+            <label for="id_precio" class="control-label">Descripción</label>
+            <input type="text" class="form-control" id="id_precio" name="desc" placeholder="Descripcion del producto" minlength="30" required>
+        </div>
+        <div class="mb-3">
+            <label for="SelectCateg" class="form-label">Categoría</label>
+            <select id="SelectCateg" class="form-select">
+              <option>Sin categoría</option>
+              <option>Aventura</option>
+              <option>Accion</option>
+              <option>Terror</option>
+              <option>Shooter</option>
+              <option>Carrera</option>
+              <option>Sandbox</option>
+              <option>Indie</option>
+            </select>
+          </div>
+
+        <a  href="ProductosAdmin.HTML">
+            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Confirmar</button>
+        </a>
+      
+    </form>
+</div>
+
+{% endblock contenido %}
+
