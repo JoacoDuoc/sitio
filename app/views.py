@@ -7,13 +7,13 @@ def index(request):
 def login(request):
     return render(request, 'app/login.html')
 
-def register(request):
-    return render(request, 'app/register.html')
+def registrarse(request):
+    return render(request, 'app/registrarse.html')
 
 def recuperar_pswd(request):
     return render(request, 'app/recuperar_pswd.html')
 
-def email_recuperar_pwsd(request):
+def email_recuperar_pswd(request):
     return render(request, 'app/email_recuperar_pswd.html')
 
 def detalle_game(request):
@@ -40,7 +40,7 @@ def perfil(request):
 def editar_perfil(request):
     return render(request, 'app/editar_perfil.html')
 
-def historial(request):
+def historial_compra(request):
     return render(request, 'app/historial_compra.html')
 
 def detalle_pedido(request):
