@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "app/base.html" %}
+{% load static %}
 
-<head>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio de Sesion</title>
-</head>
+{% block contenido %}
 
 <body>
   <section class="vh-100 gradient-custom">
@@ -30,7 +25,7 @@
 
                   </div>
 
-                  <a href="EmailRecuperarContraseña.html"><button data-mdb-button-init data-mdb-ripple-init
+                  <a href="{% url "email_recuperar_pswd" %}"><button data-mdb-button-init data-mdb-ripple-init
                       class="btn btn-outline-light btn-lg px-5" type="submit">Recuperar Contraseña</button>
                   </a>
                 </form>
@@ -40,7 +35,7 @@
           </div>
         </div>
       </div>
-      <script src="js/Form_Sesion.js"></script>
+      <script src="{%static 'js/Form_Sesion.js' %}"></script>
 </body>
 
-</html>
+{% endblock contenido %}

@@ -1,12 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends "app/base.html" %}
+{% load static %}
 
-<head>
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inicio de Sesion</title>
-</head>
+{% block contenido %}
 
 <body>
   <section class="vh-100 gradient-custom">
@@ -42,9 +37,9 @@
 
               <div>
 
-                <p class="mb-0">¿No tienes cuenta? <a href="registrarse.html"
+                <p class="mb-0">¿No tienes cuenta? <a href="{% url "registrarse" %}"
                     class="text-white-50 fw-bold">Registrarse</a>
-                <p class="mb-0">¿Olvidaste tu contraseña? <a href="RecuperarContraseña.html"
+                <p class="mb-0">¿Olvidaste tu contraseña? <a href="{% url "recuperar_pswd" %}"
                     class="text-white-50 fw-bold">Recuperar Contraseña</a>
                 </p>
                 </p>
@@ -58,4 +53,4 @@
     <script src="js/Form_Sesion.js"></script>
 </body>
 
-</html>
+{% endblock contenido %}

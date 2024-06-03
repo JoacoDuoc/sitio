@@ -7,7 +7,7 @@
     <div class="row">   
         <div class="col-sm-6 my-3 d-flex">
           <input class="form-control me-2" type="text" placeholder="Search">
-          <a class="btn btn-primary" href="Filtro.html" role="button">Buscar</a>
+          <a class="btn btn-primary" href="{% url "filtro" %}" role="button">Buscar</a>
         </div>
 
         <div class="col-sm-6 my-3">
@@ -16,17 +16,17 @@
               Ordernar por
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="Filtro.html">Nombre</a></li>
-              <li><a class="dropdown-item" href="Filtro.html">Fecha</a></li>
-              <li><a class="dropdown-item" href="Filtro.html">Categoria</a></li>
+              <li><a class="dropdown-item" href="{% url "filtro" %}">Nombre</a></li>
+              <li><a class="dropdown-item" href="{% url "filtro" %}">Fecha</a></li>
+              <li><a class="dropdown-item" href="{% url "filtro" %}">Categoria</a></li>
             </ul>
 
             <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
               Precio
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="Filtro.html">Menor precio a mayor</a></li>
-              <li><a class="dropdown-item" href="Filtro.html">Mayor precio a menor</a></li>
+              <li><a class="dropdown-item" href="{% url "filtro" %}">Menor precio a mayor</a></li>
+              <li><a class="dropdown-item" href="{% url "filtro" %}">Mayor precio a menor</a></li>
             </ul>
           </div>
         </div>
@@ -35,15 +35,15 @@
 
   <div class="container ">
       <div class=" p-3 text-white d-flex justify-content-between bg-dark" style="border-radius: 1rem;">
-            <a href="Detalle_videojuego.html"> <img class="img-fluid" src=" {% static 'img/minecraft.jpg' %}" height="100" width="200"></a>
+            <a href="{% url "detalle_game" %}"> <img class="img-fluid" src=" {% static 'img/minecraft.jpg' %}" height="100" width="200"></a>
             <div class="mx-2">
                 <p> Detalles del videojuego</p>
             </div>
             
             <h4 >$9.000</h4>
             <div class="mx-2 justify-content-end ">
-                <a href="Filtro.html"> <button type="button" class=" btn btn-secondary mx-2 my-1"> Comprar </button> </a>
-                <a href="Carrito.html"> <button type="button" class=" btn btn-secondary  my-1"> Agregar carro</button> </a>
+                <a href="{% url "pago" %}"> <button type="button" class=" btn btn-secondary mx-2 my-1"> Comprar </button> </a>
+                <a href="{% url "carrito" %}"> <button type="button" class=" btn btn-secondary  my-1"> Agregar carro</button> </a>
             </div>
       </div>  
   </div>
