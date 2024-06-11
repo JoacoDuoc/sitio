@@ -10,7 +10,7 @@ class Usuario(models.Model):
 
 class Producto(models.Model):
     id=models.IntegerField( primary_key=True , null=False)
-    nombre_p = models.CharField( null=False)
+    nombre_p = models.CharField( max_length=50,null=False)
     # imagen
     valor = models.IntegerField(null=False)
 
@@ -40,5 +40,4 @@ class Deseados(models.Model):
 class Historial_c(models.Model):
     # imagen
     descripcion = models.CharField(max_length=50, null=False)
-
 
