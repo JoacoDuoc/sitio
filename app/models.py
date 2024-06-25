@@ -29,8 +29,13 @@ class Pedidos(models.Model):
     detalle = models.CharField(max_length=50, null=False)
 
 class Carrito(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     videojuego = models.ForeignKey(Producto , on_delete=models.PROTECT)
     valor = models.IntegerField(null=False)
+    cantidad = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f'Carrito de {self.usuario.nombre_usuario} Producto: {self.videojuego.nombre_p}'
 
 class Perfil(models.Model):
     nombre_u = models.CharField(max_length=50, null=False)
@@ -39,8 +44,19 @@ class Perfil(models.Model):
     foto_perfil = models.ImageField("Imagen", upload_to='editar_perfil')
 
 class Deseados(models.Model):
-    videojego_deseado = models.ForeignKey(Producto , on_delete=models.PROTECT)
+    producto = models.ForeignKey(Producto,on_delete=models.PROTECT)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f'Lista de deseados de {self.usuario.nombre_usuario} - Producto: {self.producto.nombre_p}'
 
 class Historial_c(models.Model):
-    videojuego_comprado = models.ForeignKey(Producto , on_delete=models.PROTECT)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    cantidad = models.PositiveIntegerField(default=1)
+    fecha_compra = models.DateTimeField(auto_now_add=True)
+    total_pagado = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return f'Compra de {self.producto.nombre_p} por {self.usuario.nombre_usuario}'
 
