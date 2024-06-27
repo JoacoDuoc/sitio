@@ -28,12 +28,27 @@
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavbar">
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url "login" %}">
-                                <i class="fa-solid fa-right-to-bracket"></i>
-                                Iniciar Sesión
-                            </a>
-                        </li>
+                        {% if user.is_authenticated %}
+                            <li>
+                                <a class="nav-link" href="{% url "salir" %}">
+                                    <i class="fa-solid fa-right-to-bracket"></i> Cerrar sesion</a>
+                            <li>
+                            <li>
+                                <a class="nav-link" href="#"> # {{ user.username }} </a>
+                            <li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url "login" %}">
+                                    <i class="fa-solid fa-right-to-bracket"></i>
+                                    Iniciar Sesión
+                                </a>
+                            </li>
+                            <li>
+                                <a class="nav-link" href="{% url "registro" %}">
+                                    <i class="fa-solid fa-right-to-bracket"></i> Registrate</a>
+                            </li>
+                        {% endif %}
+
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "perfil" %}"> <i class="fa-solid fa-user"></i> Usuario</a>
                         </li>
@@ -70,6 +85,22 @@
             </div>
         </nav>
     </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"> </script>
+
+    <div class="container">
+        {% if messages %}
+            {% for m in messages%}
+                <script>
+                    Swal.fire({
+                        "title": "Felicitaciones",
+                        "text" : "{{m}}",
+                        "icon" : "success"
+                    })
+                </script>
+            {% endfor %}
+        {% endif %}
+    </div>
 
     {% block contenido %}
       

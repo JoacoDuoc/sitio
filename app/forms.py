@@ -1,17 +1,7 @@
 from django import forms
-from .models import Usuario, Producto
-
-class UsuarioForm(forms.ModelForm):
-    
-    class Meta:
-        model = Usuario
-        fields = ['id','nombre_usuario','email','contraseña']
-
-class UpdUsuarioForm(forms.ModelForm):
-
-    class Meta:
-        model = Usuario
-        fields = ['id','nombre_usuario','email','contraseña']
+from .models import  Producto
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 #Producto
 class ProductoForm(forms.ModelForm):
@@ -25,3 +15,9 @@ class UpdProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
         fields = ['id','nombre_p', 'valor']
+
+class CustomUserCreationForm(UserCreationForm):
+    
+    class Meta:
+        model = User
+        fields = ['username', "first_name" , "last_name", "email", "password1" ,"password2"]
