@@ -1,16 +1,21 @@
 from django.shortcuts import render,  redirect, get_object_or_404
 from .models import Producto
-from .forms import ProductoForm
+from .forms import ProductoForm,CustomUserCreationForm
+from django.contrib import messages
+from django.core.paginator import Paginator
+from django.http import Http404
+from django.contrib.auth import logout
+from django.contrib.auth import authenticate , login
 
 # Create your views here.\
+def salir(request):
+    logout(request)
+    messages.info(request,'Sesion Cerrada')
+    return redirect(to="index")
+
+
 def index(request):
     return render(request, 'app/index.html')
-
-def login(request):
-    return render(request, 'app/login.html')
-
-def registrarse(request):
-    return render(request, 'app/registrarse.html')
 
 def recuperar_pswd(request):
     return render(request, 'app/recuperar_pswd.html')
@@ -60,7 +65,9 @@ def add_producto(request):
         formulario = ProductoForm(data=request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
-            data["mensaje"] = "Guardado correctamente"
+            messages.success(request,"Videojuego agregado Correctamente")
+
+            return redirect(to='productos_adm')
         else:
             data["form"] = formulario
 
@@ -74,6 +81,13 @@ def usuarios_adm(request):
 
 def productos_adm(request):
     productos = Producto.objects.all()
+    page = request.GET.get('page',1)
+
+    try:
+        paginator = Paginator(productos, 5)
+        productos = paginator.page(page)
+    except:
+        raise Http404
 
     data={
         'productos': productos
@@ -94,6 +108,7 @@ def mod_producto(request, id):
         
         if formulario.is_valid():
             formulario.save()
+            messages.success(request,"Modificado Correctamente")
             data["mensaje"] = "Editado correctamente"
             return redirect(to="productos_adm")
         else:
@@ -111,6 +126,27 @@ def delete_producto(request, id):
     if request.method == 'POST':
         formulario = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
         producto.delete()
+        messages.success(request, "Eliminado Correctamente")
         return redirect(to="productos_adm")
-    return render(request, 'app/mod_producto.html', data)
+    return render(request, 'app/delete_producto.html', data)
+
+def registro(request):
+    data = {
+        'form': CustomUserCreationForm()
+    }
+
+    if request.method == 'POST':
+        formulario = CustomUserCreationForm(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            user = authenticate(username=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
+            login(request,user)
+            messages.success(request, "Te has registrado correctamente")
+            return redirect(to="index")
+        data["form"] = formulario
+    
+    return render(request, 'registration/registro.html', data)
+
+
+
 
