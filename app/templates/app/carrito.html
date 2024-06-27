@@ -3,33 +3,57 @@
 
 {% block contenido %}
 
-<div class="container ">
 
-    <div class=" p-3 text-white d-flex justify-content-between bg-dark" style="border-radius: 1rem;">
-        
-        <a href="{% url "detalle_game" %}"> <img class="img-fluid" src=" {% static 'img/minecraft.jpg' %}" height="100" width="200"></a>
-        <div class="mx-2">
-            <p> Detalles del videojuego</p>
-        </div>
-        
-        <h4 >$9.000</h4>
-        <div class="mx-2 justify-content-end ">
-            <a class="btn btn-secondary mx-2 my-1" href="{% url "pago" %}" role="button">Comprar</a>
-            <button type="button" class=" btn btn-secondary mx-2 my-1">Eliminar</button>
-        </div>
+<div class = "row">
 
+    <div class= "col-12 col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-primary" role="alert">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="row" colspan="3" class="text-center">CARRITO</th>
+                </tr>
+                <tr>
+                  <th scope="col">NOMBRE</th>
+                  <th scope="col">PRECIO</th>
+                  <th scope="col">CANTIDAD</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if request.session.carrito.items %}
+                {% for key, value in request.session.carrito.items %}
+                    <tr>
+                    <td>{{value.nombre}}</td>
+                    <td>{{value.precio}}</td>
+                    <td>{{value.acumulado}}
+                     <a href="{% url 'Add' value.producto_id %}" class="badge btn btn-dark badge-dark">+</a>
+                     <a href="{% url 'Sub' value.producto_id %}" class="badge btn btn-dark badge-dark">-</a>
+                    </td>
+                 </tr>
+                {% endfor %}
+                 {% else %}
+                 <tr>
+                     <td colspan="3">
+                        <div class="text-center"> Sin Productos </div>
+                    </td>
+                </tr>
+                {% endif %}
+                    <tr>
+                    <th scope="row">Total:</th>
+                    <td colspan="2">$ {{total_carrito}}</td>
+                    </tr>
+                </tbody>
+                </table>
+                <hr>
+                </div>
+                <div class="row text-center">
+                    <div class="col-6"><a href="#" class="btn btn-danger">Limpiar</a></div>
+                    <div class="col-6"><a href="#" class="btn btn-success">Guardar</a></div>
+                </div>
     </div>
-
 </div>
-<br>
-<div class="container">
-    <div class="d-flex">
-        <a class="btn btn-primary" href="{% url "pago" %}" role="button">Pagar todo</a>
-        <h5 class="mx-3">Total : $9.000</h5>
-    </div>
-</div>
-<br>
-
 {% endblock contenido %}
 
  
