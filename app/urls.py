@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from .views import index, login, registrarse, recuperar_pswd, email_recuperar_pswd, detalle_game, carrito, pago, finpago, filtro, favs, perfil, editar_perfil, historial_compra, detalle_pedido, add_producto, pedidos_adm, usuarios_adm, productos_adm
+from .views import index, login, registrarse, recuperar_pswd, email_recuperar_pswd, detalle_game, carrito, pago, finpago, filtro, favs, perfil, editar_perfil, historial_compra, detalle_pedido, add_producto, pedidos_adm, usuarios_adm, productos_adm, mod_producto, delete_producto
 
 #URLS APP
 urlpatterns = [
@@ -23,4 +23,6 @@ urlpatterns = [
     path('pedidos_adm/', pedidos_adm, name='pedidos_adm'),
     path('usuarios_adm/', usuarios_adm, name='usuarios_adm'),
     path('productos_adm/', productos_adm, name='productos_adm'),
+    path('mod_producto/<id>/', mod_producto, name='mod_producto'),
+    path('delete_producto/<id>/', delete_producto, name='delete_producto'),
 ]
