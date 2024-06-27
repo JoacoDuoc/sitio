@@ -14,53 +14,31 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Producto</th>
                                 <th>Imagen</th>
+                                <th>Producto</th>
                                 <th>Valor</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>100</td>
-                                <td>Minecraft</td>
-                                <td><img src=" {% static 'img/minecraft.jpg' %}" alt="" height="50"></td>
-                                <td>9000</td>
+                                {% for p in productos %}
+                    
+                            <tr>    
+                                <td>{{p.id}}</td>
+                                <td><img src="{{p.imagen.url}}" alt="foto" height="50"> </td>
+                                <td>{{p.nombre_p}}</td>
+                                <td>{{p.valor}}</td>
                                 <td>
-                                    <a href="{% url "add_producto" %}" role="button" class="btn btn-warning text-light"><i
+                                    <a href="{% url 'mod_producto' p.id %}" role="button" class="btn btn-warning text-light"><i
                                             class="fa-solid fa-pen text-white" aria-hidden="true"></i></a>
-                                    <a href="#" role="button" class="btn btn-danger"><i class="fa fa-trash"
+                                    <a href="{% url 'delete_producto' p.id %}" role="button" class="btn btn-danger"><i class="fa fa-trash"
                                             aria-hidden="true"></i></a>
                                 </td>
+                            </tr>   
 
-                            </tr>
+                                {% endfor %}
+                            
 
-                            <tr>
-                                <td>200</td>
-                                <td>Garry´s Mod</td>
-                                <td><img src=" {% static 'img/garrys_mod.png' %}" alt="" height="50"></td>
-                                <td>5000</td>
-                                <td>
-                                    <a href="{% url "add_producto" %}" role="button" class="btn btn-warning text-light"><i
-                                            class="fa-solid fa-pen text-white" aria-hidden="true"></i></a>
-                                    <a href="#" role="button" class="btn btn-danger"><i class="fa fa-trash"
-                                            aria-hidden="true"></i></a>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>300</td>
-                                <td>Call of Duty</td>
-                                <td><img src=" {% static 'img/call_of_duty.png' %}" alt="" height="50"></td>
-                                <td>10000</td>
-                                <td>
-                                    <a href="{% url "add_producto" %}" role="button" class="btn btn-warning text-light"><i
-                                            class="fa-solid fa-pen text-white" aria-hidden="true"></i></a>
-                                    <a href="#" role="button" class="btn btn-danger"><i class="fa fa-trash"
-                                            aria-hidden="true"></i></a>
-                                </td>
-
-                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render,  redirect, get_object_or_404
+from .models import Producto
+from .forms import ProductoForm
 
 # Create your views here.\
 def index(request):
@@ -47,7 +49,22 @@ def detalle_pedido(request):
     return render(request, 'app/detalle_pedido.html')
 
 def add_producto(request):
-    return render(request, 'app/add_producto.html')
+
+    data = {
+
+        'form': ProductoForm()
+
+    }
+
+    if request.method == 'POST':
+        formulario = ProductoForm(data=request.POST, files=request.FILES)
+        if formulario.is_valid():
+            formulario.save()
+            data["mensaje"] = "Guardado correctamente"
+        else:
+            data["form"] = formulario
+
+    return render(request, 'app/add_producto.html', data)
 
 def pedidos_adm(request):
     return render(request, 'app/pedidos_adm.html')
@@ -56,5 +73,44 @@ def usuarios_adm(request):
     return render(request, 'app/usuarios_adm.html')
 
 def productos_adm(request):
-    return render(request, 'app/productos_adm.html')
+    productos = Producto.objects.all()
+
+    data={
+        'productos': productos
+    }
+
+
+    return render(request, 'app/productos_adm.html', data)
+
+def mod_producto(request, id):
+
+    producto = get_object_or_404(Producto, id=id)
+
+    data = {
+        'form': ProductoForm(instance=producto)
+    }
+    if request.method == 'POST':
+        formulario = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
+        
+        if formulario.is_valid():
+            formulario.save()
+            data["mensaje"] = "Editado correctamente"
+            return redirect(to="productos_adm")
+        else:
+            data["form"] = formulario
+
+    return render(request, 'app/mod_producto.html', data)
+
+def delete_producto(request, id):
+
+    producto = get_object_or_404(Producto, id=id)
+
+    data = {
+        'form': ProductoForm(instance=producto)
+    }
+    if request.method == 'POST':
+        formulario = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
+        producto.delete()
+        return redirect(to="productos_adm")
+    return render(request, 'app/mod_producto.html', data)
 

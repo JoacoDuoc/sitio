@@ -1,6 +1,5 @@
 from django import forms
-from .models import Usuario
-from .models import Producto
+from .models import Usuario, Producto
 
 class UsuarioForm(forms.ModelForm):
     
@@ -19,10 +18,10 @@ class ProductoForm(forms.ModelForm):
     
     class Meta:
         model = Producto
-        fields = ['id','nombre_p','imagen','valor']
+        fields = '__all__'
 
 class UpdProductoForm(forms.ModelForm):
 
     class Meta:
         model = Producto
-        fields = ['id','nombre_p','imagen','valor']
+        fields = ['id','nombre_p', 'valor']

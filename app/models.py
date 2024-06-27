@@ -22,7 +22,7 @@ class Producto(models.Model):
     
 
 class Pedidos(models.Model):
-    id_pedido = models.IntegerField( primary_key=True , null=False)
+    id_producto = models.AutoField(primary_key=True)
     cliente = models.ForeignKey(Usuario , on_delete=models.PROTECT)
     email = models.CharField(max_length=50, null=50)
     valor = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(1000000)] ,null=False)
@@ -59,4 +59,3 @@ class Historial_c(models.Model):
 
     def __str__(self):
         return f'Compra de {self.producto.nombre_p} por {self.usuario.nombre_usuario}'
-
