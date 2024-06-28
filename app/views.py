@@ -15,7 +15,19 @@ def salir(request):
 
 
 def index(request):
-    return render(request, 'app/index.html')
+    productos = Producto.objects.all()
+    page = request.GET.get('page',1)
+
+    try:
+        paginator = Paginator(productos, 5)
+        productos = paginator.page(page)
+    except:
+        raise Http404
+
+    data={
+        'productos': productos
+    }
+    return render(request, 'app/index.html', data)
 
 def recuperar_pswd(request):
     return render(request, 'app/recuperar_pswd.html')
@@ -23,8 +35,13 @@ def recuperar_pswd(request):
 def email_recuperar_pswd(request):
     return render(request, 'app/email_recuperar_pswd.html')
 
-def detalle_game(request):
-    return render(request, 'app/detalle_game.html')
+def detalle_game(request, id):
+    producto=get_object_or_404(Producto,id=id)
+    datos = {
+
+        "producto":producto
+    }
+    return render(request, 'app/detalle_game.html', datos)
 
 def carrito(request):
     return render(request, 'app/carrito.html')
