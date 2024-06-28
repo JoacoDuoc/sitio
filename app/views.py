@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.http import Http404
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate , login
+from app.carrito import Carrito
 
 # Create your views here.\
 def salir(request):
@@ -17,12 +18,6 @@ def salir(request):
 def index(request):
     productos = Producto.objects.all()
     page = request.GET.get('page',1)
-
-    try:
-        paginator = Paginator(productos, 5)
-        productos = paginator.page(page)
-    except:
-        raise Http404
 
     data={
         'productos': productos
@@ -100,12 +95,6 @@ def productos_adm(request):
     productos = Producto.objects.all()
     page = request.GET.get('page',1)
 
-    try:
-        paginator = Paginator(productos, 5)
-        productos = paginator.page(page)
-    except:
-        raise Http404
-
     data={
         'productos': productos
     }
@@ -163,6 +152,29 @@ def registro(request):
         data["form"] = formulario
     
     return render(request, 'registration/registro.html', data)
+
+def agregar_producto(request, id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=id)
+    carrito.agregar(producto)
+    return redirect("carrito")
+
+def eliminar_producto(request, id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=id)
+    carrito.eliminar(producto)
+    return redirect("carrito")
+
+def restar_producto(request, id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=id)
+    carrito.restar(producto)
+    return redirect("carrito")
+
+def limpiar_carrito(request):
+    carrito = Carrito(request)
+    carrito.limpiar()
+    return redirect("carrito")
 
 
 
