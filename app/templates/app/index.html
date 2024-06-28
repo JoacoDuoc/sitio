@@ -3,32 +3,67 @@
 
 {% block contenido %}
 
-<div class="container">
-    <div class="mt-3">
-       
-    </div>
-    <div class="container">
+<div class="container py-3 " >
+    <div class="d-flex row justify-content-center ">
+        <h2 class="text-center">Destacado y recomendado</h2>
 
-                        {% for p in productos %}
-                        <div class="row text-center d-flex">
-                            <div class="col-sm-4 my-1 d-flex">
-                                <div class="card  border border-success" style="width: 25rem;">
-                                    <a href="{% url "detalle_game" p.id %}"><img src=" {{ p.imagen.url}}" class="card-img-top" height="200" > </a>
-                                    <div class="card-body ">
-                                        <p class="card-text ">{{producto.nombre_p}}</p>
-                                        <p> {{p.nombre_p}} </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    
+        <div class="col-sm-6 bg-dark  justify-content-center">
+            <a href="{% url "detalle_game" %}"> <img src=" {% static 'img/minecraft.jpg' %}" width="600" height="300" class="my-1 img-fluid"></a>
+            <h2>Minecraft</h2>
+        </div>
 
-                </tbody>
-            </table>
+        <div class="col-sm-4 bg-dark ">
+            <div class=" d-flex my-2 ">
+             <img src=" {% static 'img/m1.png' %}" height="130" width="200" class="me-1 img-fluid"> 
+             <img src=" {% static 'img/m2.png' %}"  height="130" width="200 " class="img-fluid">
+            </div>
+            <div class="d-flex">
+             <img src=" {% static 'img/m3.png' %}"  height="130" width="200" class="me-1 img-fluid">
+             <img src=" {% static 'img/m4.png' %}"  height="130" width="200" class="img-fluid">
+            </div>
+            <div class="d-flex justify-content-end"> 
+                <p>Acceso anticipado</p>
+                <h5 class="mx-4">$9.000</h5>
+            </div>
         </div>
     </div>
-
+</div>
+<div class="container my-3 ">
+    <div class="row text-center">
+        <h2>Ofertas</h2>
+        <div class="d-flex mx-4 justify-content-center col-sm-12  bg-dark" style="border-radius: 1rem;">
+            <a href="{% url "detalle_game" %}"><img class="img-fluid" src=" {% static 'img/FIFA-18.png' %}" width="500" height="300"> </a>
+            <a href="{% url "detalle_game" %}"><img class="img-fluid" src=" {% static 'img/garrys_mod.png' %}" width="500" height="362" > </a>
+        </div>
+    </div>
+</div>
+<div class="container py-3">
+    <div class="row text-center">
+        <h2> Categorias</h2>
+        <di class="col-sm-4 my-1">
+            <div class="card  border border-success" style="width: 25rem;">
+                <a href="{% url "detalle_game" %}"><img src=" {% static 'img/cag_terror.png' %}" class="card-img-top img-fluid" height="400" > </a>
+                <div class="card-body">
+                    <p class="card-text ">Terror</p>
+                </div>
+            </div>
+        </di>
+        <di class="col-sm-4 my-1">
+            <div class="card  border border-success" style="width: 25rem;">
+                <a href="{% url "detalle_game" %}"><img src=" {% static 'img/accion.png' %}" class="card-img-top img-fluid" height="400" > </a>
+                <div class="card-body">
+                    <p class="card-text ">Accion</p>
+                </div>
+            </div>
+        </di>
+        <di class="col-sm-4 my-1">
+            <div class="card  border border-success" style="width: 25rem;">
+                <a href="{% url "detalle_game" %}"><img src=" {% static 'img/shooter.png' %}" class="card-img-top img-fluid" height="172" > </a>
+                    <div class="card-body">
+                    <p class="card-text ">Shooter</p>
+            </div>
+    </div>
+</div>
 
 <div class="container py-3">
     <div class="row text-center">

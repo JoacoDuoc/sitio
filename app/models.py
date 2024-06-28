@@ -1,6 +1,5 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -21,6 +20,14 @@ class Pedidos(models.Model):
     valor = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(1000000)] ,null=False)
     detalle = models.CharField(max_length=50, null=False)
 
+class Carrito(models.Model):
+    usuario = models.CharField(max_length=50,null=False)
+    videojuego = models.ForeignKey(Producto , on_delete=models.PROTECT)
+    valor = models.IntegerField(null=False)
+    cantidad = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f'Carrito de {self.usuario} Producto: {self.videojuego.nombre_p}'
 
 class Perfil(models.Model):
     nombre_u = models.CharField(max_length=50, null=False)
