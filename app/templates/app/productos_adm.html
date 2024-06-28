@@ -27,7 +27,7 @@
                                 <td>{{p.id}}</td>
                                 <td><img src="{{p.imagen.url}}" alt="foto" height="50"> </td>
                                 <td>{{p.nombre_p}}</td>
-                                <td>{{p.valor}}$</td>
+                                <td>${{p.valor}}</td>
                                 <td>
                                     <a href="{% url 'mod_producto' p.id %}" role="button" class="btn btn-warning text-light"><i
                                             class="fa-solid fa-pen text-white" aria-hidden="true"></i></a>
