@@ -14,15 +14,26 @@ class Carrito:
         if id not in self.carrito.keys():
             self.carrito[id]={
                 "producto_id": producto.id,
-                "nombre": producto.nombre,
-                "acumulado": producto.precio,
+                "nombre": producto.nombre_p,
+                "precio": producto.valor,
+                "acumulado": producto.valor,
                 "cantidad": 1,
             }
         else:
             self.carrito[id]["cantidad"] += 1
-            self.carrito[id]["acumulado"] += producto.precio
+            self.carrito[id]["acumulado"] += producto.valor
         self.guardar_carrito()
-
+        
+        
+    def sumar(self, producto):
+        id = str(producto.id)
+        if id in self.carrito.keys():
+            self.carrito[id]["cantidad"] += 1
+            self.carrito[id]["acumulado"] += producto.valor
+        self.guardar_carrito()     
+        
+        
+        
     def guardar_carrito(self):
         self.session["carrito"] = self.carrito
         self.session.modified = True
@@ -37,7 +48,7 @@ class Carrito:
         id = str(producto.id)
         if id in self.carrito.keys():
             self.carrito[id]["cantidad"] -= 1
-            self.carrito[id]["acumulado"] -= producto.precio
+            self.carrito[id]["acumulado"] -= producto.valor
             if self.carrito[id]["cantidad"] <= 0: self.eliminar(producto)
             self.guardar_carrito()
 

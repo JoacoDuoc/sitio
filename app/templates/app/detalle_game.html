@@ -3,47 +3,38 @@
 
 {% block contenido %}
 
-        <div class="container bg-dark text-white" style="border-radius: 1rem;">
-            <div class="row p-3">
-                <img class="col-sm-8 img-fluid" src=" {% static 'img/minecraft.jpg' %}" width="300" height="400">
-                <p class="col-sm-4"> "But I must explain to you how all this mistaken idea of denouncing pleasure and
-                    praising pain
-                    was born and I will give you a complete account of the system, and expound the actual teachings of
-                    the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or
-                    avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue
-                    pleasure
-                    rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or
-                    pursues or
-                    desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur
-                    in which toil
-                    and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes
-                    laborious
-                    physical exercise, except to obtain some advantage from it? But who has any right to find fault with
-                    a man who
-                    chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that
-                    produces no resultant
-                    pleasure?" </p>
-                <div>
-                    <p></p>
-                </div>
-                <div>
-                    <a class="btn btn-primary" href="{% url "pago" %}" role="button">Comprar</a>
-                    <a class="btn btn-primary" href="{% url "carrito" %}" role="button">Añadir al Carrito</a>
-                </div>
-            </div>
+        
+<div class="container bg-dark text-white" style="border-radius: 1rem;">
+    <div class="row p-3">
+        <img class="col-sm-8 img-fluid" src=" {{ producto.imagen.url}}" width="300" height="400">
+        <p class="col-sm-4"> "But I must explain to you how all this mistaken idea of denouncing pleasure and
+            praising pain
+            was born and I will give you a complete account of the system, and expound the actual teachings of
+            the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or
+            avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue
+            pleasure
+            rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or
+            pursues or
+            desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur
+            in which toil
+            and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes
+            laborious
+            physical exercise, except to obtain some advantage from it? But who has any right to find fault with
+            a man who
+            chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that
+            produces no resultant
+            pleasure?" </p>
+        <div>
+            <h1>{{producto.nombre_p}}</h1>
         </div>
-        <br>
-        <div class="container">
-            <h1> Juegos relacionados</h1>
-            <div class="row p-3 bg-dark text-white" style="border-radius: 1rem;">
-                <a href="{% url "detalle_game" %}" class="col-sm-4 "> <img src=" {% static 'img/garrys_mod.png' %}" height="200" width="400" class="img-fluid my-1">
-                </a>
-                <a href="{% url "detalle_game" %}" class="col-sm-4 "> <img src=" {% static 'img/FIFA-18.png' %}" height="200" width="400" class="img-fluid my-1">
-                </a>
-                <a href="{% url "detalle_game" %}" class="col-sm-4 "> <img src=" {% static 'img/terraria.png' %}" height="200" width="400" class="img-fluid my-1">
-                </a>
-            </div>
-
+        <div>
+            
+                <form action="{% url 'agregar_al_carrito' producto.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Agregar al Carrito" class="btn btn-primary">
+                </form>
         </div>
+    </div>
+</div>
 
 {% endblock contenido %}
