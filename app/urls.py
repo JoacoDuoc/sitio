@@ -9,7 +9,7 @@ urlpatterns = [
     path('', index, name='index'),
     path('recuperar_pswd/', recuperar_pswd, name='recuperar_pswd'),
     path('email_recuperar_pswd/', email_recuperar_pswd, name='email_recuperar_pswd'),
-    path('detalle_game/<id>/', detalle_game, name='detalle_game'),
+    path('detalle_game/', detalle_game, name='detalle_game'),
     path('carrito/', carrito, name='carrito'),
     path('pago/', pago, name='pago'),
     path('finpago/', finpago, name='finpago'),
@@ -26,5 +26,5 @@ urlpatterns = [
     path('mod_producto/<id>/', mod_producto, name='mod_producto'),
     path('delete_producto/<id>/', delete_producto, name='delete_producto'),
     path('salir/',salir,name='salir'),
-    path('registro/', registro, name="registro"),
+    path('registro/', registro, name="registro")
 ]

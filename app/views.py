@@ -1,16 +1,11 @@
 from django.shortcuts import render,  redirect, get_object_or_404
-from .models import Producto ,User
-from .forms import ProductoForm,CustomUserCreationForm,UpdProductoForm
+from .models import Producto
+from .forms import ProductoForm,CustomUserCreationForm
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate , login
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404,redirect
-from app.Carrito import Carrito
-from app.context_processor import total_carrito
-
 
 # Create your views here.\
 def salir(request):
@@ -20,20 +15,7 @@ def salir(request):
 
 
 def index(request):
-    productos = Producto.objects.all()
-    page = request.GET.get('page',1)
-
-    try:
-        paginator = Paginator(productos, 5)
-        productos = paginator.page(page)
-    except:
-        raise Http404
-
-    data={
-        'productos': productos
-    }
-
-    return render(request, 'app/index.html',data)
+    return render(request, 'app/index.html')
 
 def recuperar_pswd(request):
     return render(request, 'app/recuperar_pswd.html')
@@ -41,19 +23,11 @@ def recuperar_pswd(request):
 def email_recuperar_pswd(request):
     return render(request, 'app/email_recuperar_pswd.html')
 
-def detalle_game(request,id):
-   producto=get_object_or_404(Producto,id=id)
-   #persona=Persona.objects.get(rut=id) #None
-   #print(persona)
-   datos = {
-
-        "producto":producto
-    }
-   
-   return render(request,'app/detalle_game.html', datos)
+def detalle_game(request):
+    return render(request, 'app/detalle_game.html')
 
 def carrito(request):
-    return render(request, 'app/carrito.html',)
+    return render(request, 'app/carrito.html')
 
 def pago(request):
     return render(request, 'app/pago.html')
@@ -103,12 +77,7 @@ def pedidos_adm(request):
     return render(request, 'app/pedidos_adm.html')
 
 def usuarios_adm(request):
-    usuarios = User.objects.all()
-    
-    data={
-        'usuarios': usuarios
-    }
-    return render(request, 'app/usuarios_adm.html',data)
+    return render(request, 'app/usuarios_adm.html')
 
 def productos_adm(request):
     productos = Producto.objects.all()
@@ -179,67 +148,5 @@ def registro(request):
     return render(request, 'registration/registro.html', data)
 
 
-@login_required()
-def carro(request):
-    cliente = User.objects.get(usuario_id = request.user.id)
-    ctx = {
-        "sub" : cliente.subscriptor
-    }
-    return render(request, "crud/carro.html", ctx)
 
-@login_required()
-def agregar(request, producto_id, pagina):
-    carrito = Carrito(request)
-    producto = Producto.objects.get(id=producto_id)
-    carrito.agregar(producto)
-    return redirect(pagina)
-
-
-def eliminar_producto(request, producto_id):
-    carrito = Carrito(request)
-    producto = Producto.objects.get(id=producto_id)
-    carrito.eliminar(producto)
-    return redirect("carro")
-
-def restar_producto(request, producto_id):
-    carrito = Carrito(request)
-    producto = Producto.objects.get(id=producto_id)
-    carrito.restar(producto)
-    return redirect("carro")
-
-def sumar_producto(request, producto_id):
-    carrito = Carrito(request)
-    producto = Producto.objects.get(id=producto_id)
-    carrito.sumar(producto)
-    return redirect("carro")
-@login_required()    
-def limpiar_carrito(request):
-    carrito = Carrito(request)
-    carrito.limpiar()
-    return redirect("carro")
-"""
-@login_required()
-def guardar(request):
-    usuario = request.user
-    tot_carrito = total_carrito(request)
-    carrito = Carrito(request)
-    total = tot_carrito["total_carrito"]
-    cliente = User.objects.get(usuario_id = usuario.id)
-    if cliente.subscriptor == True:
-        total = tot_carrito["descuento"]
-    ventas = Venta(cliente_id = cliente.id, total = total)
-    ventas.save()
-    venta_actual = Venta.objects.get(id = ventas.id)
-    #guardar detalle
-    if "carrito" in request.session.keys():
-        for key, value in request.session["carrito"].items():
-            detalle = DetalleVenta(venta_id = venta_actual.id, producto_id = int(value["producto_id"]), cantidad = int(value["cantidad"]), precio = int(value["precio"]) )
-            
-            detalle.save()
-            if cliente.subscriptor == False and int(value["producto_id"]) == 45:
-                cliente.subscriptor = True
-                cliente.save()
-    carrito.limpiar()
-    return redirect(perfil, 1)  
-"""
 

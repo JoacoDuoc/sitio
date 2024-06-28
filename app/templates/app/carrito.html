@@ -1,82 +1,59 @@
 {% extends "app/base.html" %}
 {% load static %}
 
-{% block content %}
-{% load crispy_forms_tags%}
-{% load humanize %}
-    <div class="container ">
-        <div class="row">
-            <div class="col-12 col-md-12 table-responsive-sm">
+{% block contenido %}
 
 
-                <div class="text-center">
-                    <h4 class="display-6">Carrito</h4>
-                </div>
-                
-                <table class="table table-hover">
-                <thead>
+<div class = "row">
+
+    <div class= "col-12 col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-primary" role="alert">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="row" colspan="3" class="text-center">CARRITO</th>
+                </tr>
+                <tr>
+                  <th scope="col">NOMBRE</th>
+                  <th scope="col">PRECIO</th>
+                  <th scope="col">CANTIDAD</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% if request.session.carrito.items %}
+                {% for key, value in request.session.carrito.items %}
                     <tr>
-                      <th scope="col">Nombre</th>
-                      <th scope="col">Precio</th>
-                      <th scope="col">Cantidad</th>
-                      <th scope="col">Subtotal</th>
-                      <th scope="col">Accion</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                  {% if request.session.carrito.items %}
-                  {% for key, value in request.session.carrito.items %}
+                    <td>{{value.nombre}}</td>
+                    <td>{{value.precio}}</td>
+                    <td>{{value.acumulado}}
+                     <a href="{% url 'Add' value.producto_id %}" class="badge btn btn-dark badge-dark">+</a>
+                     <a href="{% url 'Sub' value.producto_id %}" class="badge btn btn-dark badge-dark">-</a>
+                    </td>
+                 </tr>
+                {% endfor %}
+                 {% else %}
+                 <tr>
+                     <td colspan="3">
+                        <div class="text-center"> Sin Productos </div>
+                    </td>
+                </tr>
+                {% endif %}
                     <tr>
-                      <th scope="row">{{value.nombre}}</th>
-                      <td>${{value.precio|intcomma}}</td>
-                      <td>{{value.cantidad}}</td>
-                      <td>${{value.acumulado|intcomma}}</td>
-                      <td>
-                        <a href="{% url 'sumar' value.producto_id %}" class="badge btn btn-dark badge-dark">+</a>
-                        <a href="{% url 'restar' value.producto_id %}" class="badge btn btn-dark badge-dark">-</a>
-                      </td>
+                    <th scope="row">Total:</th>
+                    <td colspan="2">$ {{total_carrito}}</td>
                     </tr>
-                  {% endfor %}
-                  {% else %}
-                  <tr>
-                      <td colspan="6">
-                          <div class="alert alert-danger text-center"> Sin Productos </div>
-                      </td>
-                  </tr>
-                  {% endif %}
-                    <tr>
-                      
-                      <th scope="row" colspan="1" class="text-end" >Total:</th>
-                      <td colspan="1">$ {{total_carrito|intcomma}}</td>
-                      
-                      
-                    </tr>
-                    <tr>
-                      {% if sub  %}
-                      <th scope="row" colspan="1" class="text-end" >Descuento:</th>
-                      <td colspan="1">$ {{porcentaje|intcomma}}</td>
-                      {% endif %}
-                    </tr>
-                    <tr>
-                      {% if sub  %}
-                      <th scope="row" colspan="1" class="text-end" >Total a pagar:</th>
-                      <td colspan="1">$ {{descuento|intcomma}}</td>
-                      {% endif %}
-                    </tr>
-                  </tbody>
+                </tbody>
                 </table>
                 <hr>
-                
-                <div class="row text-center">
-                    <div class="col-6"><a href="{% url 'limpiar' %}" class="btn btn-danger">Cancelar</a></div>
-                    <div class="col-6"><a href="{% url 'guardar'%}" class="btn btn-success">Guardar</a></div>
                 </div>
-
-            </div>
-        </div>
-
+                <div class="row text-center">
+                    <div class="col-6"><a href="#" class="btn btn-danger">Limpiar</a></div>
+                    <div class="col-6"><a href="#" class="btn btn-success">Guardar</a></div>
+                </div>
     </div>
-
-{% endblock %}
+</div>
+{% endblock contenido %}
 
  
