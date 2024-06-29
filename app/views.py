@@ -7,6 +7,7 @@ from django.http import Http404
 from django.contrib.auth import logout
 from django.contrib.auth import authenticate , login
 from app.carrito import Carrito
+from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.\
 def salir(request):
@@ -37,7 +38,7 @@ def detalle_game(request, id):
         "producto":producto
     }
     return render(request, 'app/detalle_game.html', datos)
-
+@login_required
 def carrito(request):
     return render(request, 'app/carrito.html')
 
@@ -50,6 +51,7 @@ def finpago(request):
 def filtro(request):
     return render(request, 'app/filtro.html')
 
+@login_required
 def favs(request):
     return render(request, 'app/favs.html')
 
@@ -157,6 +159,7 @@ def agregar_producto(request, id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=id)
     carrito.agregar(producto)
+    messages.success(request, "Producto agregado Correctamente")
     return redirect("carrito")
 
 def eliminar_producto(request, id):
