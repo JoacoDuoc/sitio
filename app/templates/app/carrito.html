@@ -11,12 +11,13 @@
             <table class="table table-dark table-striped ">
               <thead>
                 <tr> 
-                  <th scope="row" colspan="3" class="text-center">CARRITO</th>
+                  <th scope="row" colspan="4" class="text-center">CARRITO</th>
                 </tr>
                 <tr>
                   <th scope="col">NOMBRE</th>
                   <th scope="col">PRECIO</th>
                   <th scope="col">CANTIDAD</th>
+                  <th scope="col">ACCIONES</th>
                 </tr>
               </thead>
                 <tbody>
@@ -24,23 +25,25 @@
                 {% for key, value in request.session.carrito.items %}
                     <tr>
                         <td>{{value.nombre_p}}</td>
-                        <td>${{value.valor}}</td>
-                        <td>{{value.acumulado}}
-                            <a href="{% url 'Add' value.id %}" class="badge btn btn-success badge-dark">+</a>
-                            <a href="{% url 'Sub' value.id %}" class="badge btn btn-danger badge-dark">-</a>
+                        <td>${{value.acumulado}}</td>
+                        <td>{{value.cantidad}}
                         </td>
+                        <td>
+                          <a href="{% url 'Add' value.id %}" class="badge btn btn-success badge-dark">+</a>
+                          <a href="{% url 'Sub' value.id %}" class="badge btn btn-danger badge-dark">-</a>
+                      </td>
                    </tr>
                 {% endfor %}
                  {% else %}
                  <tr>
-                     <td colspan="3">
+                     <td colspan="4">
                         <div class="text-center"> Sin Productos </div>
                     </td>
                 </tr>
                 {% endif %}
                     <tr>
                     <th scope="row">Total:</th>
-                    <td colspan="2">$ {{total_carrito}}</td>
+                    <td colspan="3">$ {{total_carrito}}</td>
                     </tr>
                 </tbody>
                </table>
