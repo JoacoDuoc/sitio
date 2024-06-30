@@ -7,34 +7,39 @@
                 <h1 class="h4">Usuarios</h1>
                 <p><a href="{% url "registro" %}" class="nodecolink"><i class="a-solid fa-plus" aria-hidden="true"></i> Registrar Usuario</p></a>
                 <div class="mt-2 table-responsive">
-                    <table class="table table-dark table-striped">
+                    <table class="table table-hover">
                         <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre del Cliente</th>
-                                <th>Email</th>
-                                <th>Videojuegos Comprados</th>
-                                <th>Acciones</th>
-                            </tr>
+                          <tr>
+                            <th>ID</th>
+                            <th>USERNAME</th>
+                            <th>NOMBRE</th>
+                            <th>APELLIDOS</th>
+                            <th>E-MAIL</th>
+                            <th>ES ADMINISTRADOR</th>
+                          </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Pepito Martinez</td>
-                                <td>pepitomartinez@gmail.com</td>
-                                <td>10</td>
-                                <td>
-                                    <a href="{% url "registro" %}" role="button" class="btn btn-warning text-light"><i
-                                        class="fa-solid fa-pen text-white" aria-hidden="true"></i></a>
-
-                                    <a href="#" role="button" class="btn btn-danger"><i class="fa fa-trash"
-                                            aria-hidden="true"></i></a>
-                                </td>
-                            </tr>
-
+                  
+                          {% for p in usuarios %}
+                          <td>{{p.id}}</td>
+                          <td>{{p.username}}</td>
+                          <td>{{p.first_name}}</td>
+                          <td>{{p.last_name}}</td>
+                          <td>{{p.email}}</td>
+                          <td>{{p.is_staff}}
+                            
+                          </td>
+                          
+                          </tr>
+                          {% endfor %}
+                          <tr>
                         </tbody>
-                    </table>
-                </div>
-            </div>
+                      </table>
+                  
+                    </div>
+                    <div class="col-sm-1"></div>
+                  </div>
+                  </div>
+                  
 
 {% endblock contenido %}
