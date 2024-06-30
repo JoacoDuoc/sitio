@@ -4,10 +4,11 @@ from .forms import ProductoForm,CustomUserCreationForm
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import Http404
-from django.contrib.auth import logout
+from django.contrib.auth import logout 
 from django.contrib.auth import authenticate , login
 from app.carrito import Carrito
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import User
 
 # Create your views here.\
 def salir(request):
@@ -91,7 +92,15 @@ def pedidos_adm(request):
     return render(request, 'app/pedidos_adm.html')
 
 def usuarios_adm(request):
-    return render(request, 'app/usuarios_adm.html')
+    usuarios= User.objects.all()
+
+    datos={
+
+        "usuarios":usuarios
+
+    }
+
+    return render(request, 'app/usuarios_adm.html', datos)
 
 def productos_adm(request):
     productos = Producto.objects.all()
