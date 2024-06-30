@@ -34,7 +34,7 @@
                                     <i class="fa-solid fa-right-to-bracket"></i> Cerrar sesion</a>
                             <li>
                             <li>
-                                <a class="nav-link" href="#"> # {{ user.username }} </a>
+                                <a class="nav-link" href="{% url "perfil" %}"> <i class="fa-solid fa-user"> {{ user.username }}</i>  </a>
                             <li>
                         {% else %}
                             <li class="nav-item">
@@ -50,15 +50,13 @@
                         {% endif %}
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url "perfil" %}"> <i class="fa-solid fa-user"></i> Usuario</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{% url "carrito" %}"> <i class="fa-solid fa-cart-shopping"></i>
                                 Carrito</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url "favs" %}"> <i class="fa-solid fa-star"></i> Favoritos</a>
                         </li>
+                        {% if perms.app.add_permission%}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown">Administración</a>
@@ -74,6 +72,7 @@
                                 </li>
                             </ul>
                         </li>
+                        {% endif%}
                     </ul>
                 </div>
                 <div class="nav-item">
