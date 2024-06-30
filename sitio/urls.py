@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from app.views import agregar_producto, eliminar_producto, restar_producto, limpiar_carrito
+from app.views import agregar_producto, eliminar_producto, restar_producto, limpiar_carrito 
 
 
 #Para imagen
@@ -32,6 +32,7 @@ urlpatterns = [
     path('eliminar/<int:id>/', eliminar_producto, name="Del"),
     path('restar/<int:id>/', restar_producto, name="Sub"),
     path('limpiar/', limpiar_carrito, name="CLS"),
+
 ]
 
 if settings.DEBUG:
