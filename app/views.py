@@ -159,7 +159,6 @@ def agregar_producto(request, id):
     carrito = Carrito(request)
     producto = Producto.objects.get(id=id)
     carrito.agregar(producto)
-    messages.success(request, "Producto agregado Correctamente")
     return redirect("carrito")
 
 def eliminar_producto(request, id):
