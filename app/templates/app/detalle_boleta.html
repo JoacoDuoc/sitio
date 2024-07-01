@@ -1,5 +1,6 @@
 {% extends "app/base.html" %}
 {% load static %}
+{%load humanize%}
 
 {% block contenido %}
 
@@ -20,29 +21,25 @@
 
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         <div>
-                                            <p class="mb-1">Cliente: Pepito Martinez</p>
+                                            <p class="mb-1">Cliente: {{ boleta.cliente.username }} </p>
                                         </div>
                                     </div>
 
                                     <div class="card mb-3">
                                         <div class="card-body">
-                                            <div class="d-flex justify-content-between">
+                                            {% for item in productos %}
+                                            <div class="card border-0 mb-3 row">
+                                                <img class="col-md-4 img-fluid rounded-start" src="{{item.producto.imagen.url}}" alt="{{item.producto.nombre_p}}">
+                                              <div class="card-body col-md-8">
+                                                <h5 class="card-title">{{item.producto.nombre}}</h5>
+                                                <p class="card-text">productos : {{item.cantidad_productos}}</p>
+                                                <ul class="list-group list-group-flush">
+                                                  <li class="list-group-item">Total : ${{item.get_total|intcomma}}</li>
+                                                </ul>
+                                              </div>
+                                            </div>
+                                            {% endfor %}
                                                 <div class="d-flex flex-row align-items-center">
-                                                    <div>
-                                                        <img src=" {% static 'img/minecraft.jpg' %}" class="img-fluid rounded-3"
-                                                            alt="Shopping item" style="width: 65px;">
-                                                    </div>
-                                                    <div class="ms-3">
-                                                        <h5>Minecraft</h5>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex flex-row align-items-center">
-                                                    <div style="width: 50px;">
-                                                        <h5 class="fw-normal mb-0">1</h5>
-                                                    </div>
-                                                    <div style="width: 80px;">
-                                                        <h5 class="mb-0">$9000</h5>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -55,7 +52,7 @@
 
                                 <div class="d-flex justify-content-between">
                                     <h4 class="mb-2">Subtotal</h4>
-                                    <h4 class="mb-2">$9000</h4>
+                                    <h4 class="mb-2">${{ boleta.get_total }}</h4>
                                 </div>
 
 

@@ -3,147 +3,144 @@
 
 {% block contenido %}
 
-    <section class="vh-150 gradient-custom" >
-            <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body p-4">
+<section class="vh-150 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body p-4">
 
-                                <div class="row">
+                        <div class="row">
 
-                                    <div class="col-lg-7">
-                                        <h5 class="mb-3"><a href="{% url "index" %}" class="text-body"><i
-                                                    class="fas fa-long-arrow-alt-left me-2"></i>Seguir Comprando</a>
-                                        </h5>
-                                        <hr>
+                            <div class="col-lg-7">
+                                <h5 class="mb-3"><a href="{% url "index" %}" class="text-body"><i
+                                            class="fas fa-long-arrow-alt-left me-2"></i>Seguir Comprando</a>
+                                </h5>
+                                <hr>
 
-                                        <table class="table table-dark table-striped ">
-                                            <thead>
-                                              <tr> 
-                                                <th scope="row" colspan="4" class="text-center">CARRITO</th>
-                                              </tr>
-                                              <tr>
-                                                <th scope="col">NOMBRE</th>
-                                                <th scope="col">PRECIO</th>
-                                                <th scope="col">CANTIDAD</th>
-                                              </tr>
-                                            </thead>
-                                              <tbody>
-                                              {% if request.session.carrito.items %}
-                                              {% for key, value in request.session.carrito.items %}
-                                                  <tr>
-                                                      <td>{{value.nombre_p}}</td>
-                                                      <td>${{value.acumulado}}</td>
-                                                      <td>{{value.cantidad}}
-                                                      </td>
-                                                 </tr>
-                                              {% endfor %}
-                                               {% else %}
-                                               <tr>
-                                                   <td colspan="4">
-                                                      <div class="text-center"> Sin Productos </div>
-                                                  </td>
-                                              </tr>
-                                              {% endif %}
-                                              </tbody>
-                                             </table>
+                                <table class="table table-dark table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" colspan="4" class="text-center">CARRITO</th>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">NOMBRE</th>
+                                            <th scope="col">PRECIO</th>
+                                            <th scope="col">CANTIDAD</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if items %}
+                                            {% for detalle in items %}
+                                                <tr>
+                                                    <td>{{ detalle.producto.nombre_p }}</td>
+                                                    <td>${{ detalle.producto.valor }}</td>
+                                                    <td>{{ detalle.cantidad_productos }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="4">
+                                                    <div class="text-center">Sin Productos</div>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
 
-                                    </div>
-                                    <div class="col-lg-5">
-                                        <form action="{% url "finpago" %}">
-                                        <div class="card bg-primary text-white rounded-3">
-                                            <div class="card-body">
-                                            
-                                                <div class="d-flex justify-content-between align-items-center mb-4">
-                                                    <h5 class="mb-0">Detalles de la Tarjeta</h5>
+                            </div>
+                            <div class="col-lg-5">
+                                <form action="{% url "pago" %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="card bg-primary text-white rounded-3">
+                                        <div class="card-body">
+
+                                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                                <h5 class="mb-0">Detalles de la Tarjeta</h5>
+                                            </div>
+
+                                            <p class="small mb-2">Tarjeta</p>
+                                            <a href="#!" class="text-white"><i
+                                                    class="fab fa-cc-mastercard fa-2x me-2"></i></a>
+                                            <a href="#!" class="text-white"><i
+                                                    class="fab fa-cc-visa fa-2x me-2"></i></a>
+                                            <a href="#!" class="text-white"><i
+                                                    class="fab fa-cc-paypal fa-2x"></i></a>
+
+                                            <div class="mt-4">
+                                                <div data-mdb-input-init class="form-outline form-white mb-4">
+                                                    <p id="mensaje"></p>
+                                                    <input type="text" id="NombreTitular"
+                                                        class="form-control form-control-lg" size="17"
+                                                        placeholder="Nombre del Titular" required />
+                                                    <label class="form-label" for="typeName">Nombre del Titular</label>
                                                 </div>
-                                            
-                                                <p class="small mb-2">Tarjeta</p>
-                                                <a href="#!" type="submit" class="text-white"><i
-                                                        class="fab fa-cc-mastercard fa-2x me-2"></i></a>
-                                                <a href="#!" type="submit" class="text-white"><i
-                                                        class="fab fa-cc-visa fa-2x me-2"></i></a>
-                                                <a href="#!" type="submit" class="text-white"><i
-                                                        class="fab fa-cc-paypal fa-2x"></i></a>
 
-                                                <form class="mt-4" >
-                                                    <div data-mdb-input-init class="form-outline form-white mb-4">
-                                                        <p id="mensaje"></p>
-                                                        <input type="text" id="NombreTitular" 
-                                                            class="form-control form-control-lg" siez="17"
-                                                            placeholder="Nombre del Titular" required/>
-                                                        <label class="form-label" for="typeName">Nombre del
-                                                            Titular</label>
-                                                    </div>
+                                                <div data-mdb-input-init class="form-outline form-white mb-4">
+                                                    <input type="text" id="num_tarjeta"
+                                                        class="form-control form-control-lg" size="17"
+                                                        placeholder="1234 5678 9012 3457" minlength="19" maxlength="19"
+                                                        required />
+                                                    <label class="form-label" for="typeText">N° de Tarjeta</label>
+                                                </div>
 
-                                                    <div data-mdb-input-init class="form-outline form-white mb-4">
-                                                        <input type="text" id="num_tarjeta"
-                                                            class="form-control form-control-lg" siez="17"
-                                                            placeholder="1234 5678 9012 3457" minlength="19"
-                                                            maxlength="19" required/>
-                                                        <label class="form-label" for="typeText">N° de Tarjeta</label>
-                                                    </div>
-
-                                                    <div class="row mb-4">
-                                                        <div class="col-md-3">
-                                                            <div data-mdb-input-init class="form-outline form-white">
-                                                                <input type="text" id="mes"
-                                                                    class="form-control form-control-lg"
-                                                                    placeholder="MM" size="2" id="exp"
-                                                                    minlength="2" maxlength="2" required/>
-                                                                <label class="form-label" for="typeExp"> Mes</label>
-                                                            </div>
+                                                <div class="row mb-4">
+                                                    <div class="col-md-3">
+                                                        <div data-mdb-input-init class="form-outline form-white">
+                                                            <input type="text" id="mes"
+                                                                class="form-control form-control-lg"
+                                                                placeholder="MM" size="2" minlength="2" maxlength="2"
+                                                                required />
+                                                            <label class="form-label" for="typeExp"> Mes</label>
                                                         </div>
-                                                        <div class="col-md-3">
-                                                            <div data-mdb-input-init class="form-outline form-white">
-                                                                <input type="text" id="año"
-                                                                    class="form-control form-control-lg"
-                                                                    placeholder="YYYY" size="4" id="exp"
-                                                                    minlength="4" maxlength="4" required/>
-                                                                <label class="form-label" for="typeExp"> Año</label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6">
-                                                            <div data-mdb-input-init class="form-outline form-white">
-                                                                <input type="password" id="cvv"
-                                                                    class="form-control form-control-lg"
-                                                                    placeholder="&#9679;&#9679;&#9679;" size="1"
-                                                                    minlength="3" maxlength="3" required/>
-                                                                <label class="form-label" for="typeText">CVVS</label>
-                                                            </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div data-mdb-input-init class="form-outline form-white">
+                                                            <input type="text" id="año"
+                                                                class="form-control form-control-lg"
+                                                                placeholder="YYYY" size="4" minlength="4" maxlength="4"
+                                                                required />
+                                                            <label class="form-label" for="typeExp"> Año</label>
                                                         </div>
                                                     </div>
 
-                                                </form>
+                                                    <div class="col-md-6">
+                                                        <div data-mdb-input-init class="form-outline form-white">
+                                                            <input type="password" id="cvv"
+                                                                class="form-control form-control-lg"
+                                                                placeholder="&#9679;&#9679;&#9679;" size="1"
+                                                                minlength="3" maxlength="3" required />
+                                                            <label class="form-label" for="typeText">CVVS</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                                 <hr class="my-4">
 
                                                 <div class="d-flex justify-content-between">
                                                     <p class="mb-2">Subtotal</p>
-                                                    <p class="mb-2">${{total_carrito}}</p>
+                                                    <p class="mb-2">${{ order.get_total }}</p>
                                                 </div>
-                                                
-                                               
-                                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Comprar</button>
-                                    
-                                                
-                                            </form>
-                                            </div>
-                                        </div>
 
+                                                <button data-mdb-button-init data-mdb-ripple-init
+                                                    class="btn btn-outline-light btn-lg px-5" type="submit">Comprar</button>
+
+                                            </div>
+
+                                        </div>
                                     </div>
 
-                                </div>
+                                </form>
 
                             </div>
+
                         </div>
+
                     </div>
                 </div>
             </div>
-        </section>
-        <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-        <script src="js/Form_pago.js"></script>
+        </div>
+    </div>
+</section>
 
 {% endblock contenido %}

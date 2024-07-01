@@ -1,14 +1,16 @@
 from django.shortcuts import render,  redirect, get_object_or_404
-from .models import Producto
+from .models import Producto, Boleta, Detalle_boleta
 from .forms import ProductoForm,CustomUserCreationForm
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import Http404
 from django.contrib.auth import logout 
 from django.contrib.auth import authenticate , login
-from app.carrito import Carrito
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
+from django.views.decorators.http import require_POST
+import json
+from django.http import JsonResponse , HttpResponse
 
 # Create your views here.\
 def salir(request):
@@ -39,12 +41,69 @@ def detalle_game(request, id):
         "producto":producto
     }
     return render(request, 'app/detalle_game.html', datos)
+
+@login_required
+def pago(request):
+    
+    order,creada = Boleta.objects.get_or_create(cliente=request.user,completada=False)
+    items = order.detalle_boleta_set.all()
+    items_carrito = order.get_item
+
+    if items.count() <= 0:
+        messages.error(request,"No hay productos en tu carrito")
+        return redirect('index')
+    
+    if request.method == 'POST':
+        order.completada = True 
+        order.save()
+        messages.success(request,"Procesada con éxito")
+
+    context = {'items': items, 'order' : order}   
+    return render(request,"app/pago.html", context)
+
+@login_required
+@permission_required("pagina.view_user",raise_exception=True)
+def detalle_boleta(request,id):
+    boleta = Boleta.objects.get(id=id)
+    productos = Detalle_boleta.objects.filter(boleta=boleta)
+    context = {'boleta':boleta,'productos':productos}
+    return render(request,"app/detalle_boleta.html", context)
+
+
 @login_required
 def carrito(request):
-    return render(request, 'app/carrito.html')
+    order, created = Boleta.objects.get_or_create(cliente=request.user, completada=False)
+    items = order.detalle_boleta_set.all()
+    items_carrito = order.get_item  # Asegúrate de tener este método o propiedad definido en el modelo Boleta
 
-def pago(request):
-    return render(request, 'app/pago.html')
+    data = {
+        'order': order,
+        'items': items,
+        'items_carrito': items_carrito,
+    }
+
+    return render(request, 'app/carrito.html', data)
+
+@require_POST
+def actualizarCarrito(request):
+    data = json.loads(request.body)
+    productId = data['productId']
+    action = data['action']
+    producto = Producto.objects.get(id=productId)
+    order,creada = Boleta.objects.get_or_create(cliente=request.user,completada=False)
+    detalle_orden,creada = Detalle_boleta.objects.get_or_create(boleta=order,producto=producto)
+    if action == 'add':
+        if detalle_orden.cantidad_productos < producto.stock: 
+            detalle_orden.cantidad_productos +=1
+    elif action == 'remove': 
+        detalle_orden.cantidad_productos -=1
+    
+    elif action == 'delete':
+        detalle_orden.cantidad_productos = 0    
+    detalle_orden.save()          
+    if detalle_orden.cantidad_productos <= 0: 
+        detalle_orden.delete()
+    return JsonResponse("Carrito actualizado",safe=False) 
 
 def finpago(request):
     return render(request, 'app/finpago.html')
@@ -89,7 +148,9 @@ def add_producto(request):
     return render(request, 'app/add_producto.html', data)
 
 def pedidos_adm(request):
-    return render(request, 'app/pedidos_adm.html')
+    boletas = Boleta.objects.filter(completada=True)
+    data = {'boletas': boletas}
+    return render(request,"app/pedidos_adm.html",data) 
 
 def usuarios_adm(request):
     usuarios= User.objects.all()
@@ -164,28 +225,42 @@ def registro(request):
     
     return render(request, 'registration/registro.html', data)
 
-def agregar_producto(request, id):
-    carrito = Carrito(request)
-    producto = Producto.objects.get(id=id)
-    carrito.agregar(producto)
-    return redirect("carrito")
+@login_required
+def agregar_al_carrito(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    order, created = Boleta.objects.get_or_create(cliente=request.user, completada=False)
+    detalle_orden, created = Detalle_boleta.objects.get_or_create(boleta=order, producto=producto)
+    detalle_orden.cantidad_productos += 1
+    detalle_orden.save()
+    return redirect('carrito')
 
-def eliminar_producto(request, id):
-    carrito = Carrito(request)
-    producto = Producto.objects.get(id=id)
-    carrito.eliminar(producto)
-    return redirect("carrito")
+@login_required
+def quitar_del_carrito(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    order = Boleta.objects.get(cliente=request.user, completada=False)
+    detalle_orden = Detalle_boleta.objects.get(boleta=order, producto=producto)
+    if detalle_orden.cantidad_productos > 1:
+        detalle_orden.cantidad_productos -= 1
+        detalle_orden.save()
+    else:
+        detalle_orden.delete()
+    return redirect('carrito')
 
-def restar_producto(request, id):
-    carrito = Carrito(request)
-    producto = Producto.objects.get(id=id)
-    carrito.restar(producto)
-    return redirect("carrito")
+@login_required
+def eliminar_del_carrito(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    order = Boleta.objects.get(cliente=request.user, completada=False)
+    detalle_orden = Detalle_boleta.objects.get(boleta=order, producto=producto)
+    detalle_orden.delete()
+    return redirect('carrito')
 
-def limpiar_carrito(request):
-    carrito = Carrito(request)
-    carrito.limpiar()
-    return redirect("carrito")
+@login_required
+def ver_carrito(request):
+    order = Boleta.objects.filter(cliente=request.user, completada=False).first()
+    context = {
+        'order': order
+    }
+    return render(request, 'carrito.html', context)
 
 
 

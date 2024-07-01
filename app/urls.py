@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from .views import index, registro, recuperar_pswd, email_recuperar_pswd, detalle_game, carrito, pago, finpago \
                  , filtro, favs, perfil, editar_perfil, historial_compra, detalle_pedido, add_producto, pedidos_adm, usuarios_adm, \
-                 productos_adm, mod_producto, delete_producto,salir
+                 productos_adm, mod_producto, delete_producto,salir, actualizarCarrito, agregar_al_carrito, eliminar_del_carrito, quitar_del_carrito, ver_carrito, detalle_boleta
 
 #URLS APP
 urlpatterns = [
@@ -26,5 +26,11 @@ urlpatterns = [
     path('mod_producto/<id>/', mod_producto, name='mod_producto'),
     path('delete_producto/<id>/', delete_producto, name='delete_producto'),
     path('salir/',salir,name='salir'),
-    path('registro/', registro, name="registro")
+    path('registro/', registro, name="registro"),
+    path('actualizar_carrito/', actualizarCarrito, name='actualizar_carrito'),
+    path('agregar-al-carrito/<int:producto_id>/', agregar_al_carrito, name='agregar_al_carrito'),
+    path('quitar-del-carrito/<int:producto_id>/', quitar_del_carrito, name='quitar_del_carrito'),
+    path('eliminar-del-carrito/<int:producto_id>/', eliminar_del_carrito, name='eliminar_del_carrito'),
+    path('ver-carrito/', ver_carrito, name='ver_carrito'),
+    path('detalle_boleta/<id>', detalle_boleta, name='detalle_boleta'),
 ]

@@ -1,34 +1,49 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth.models import User
+import uuid
+
 
 # Create your models here.
 
 class Producto(models.Model):
-    id=models.IntegerField( primary_key=True , null=False)
+    id=models.IntegerField( primary_key=True ,default=uuid.uuid4, null=False)
     nombre_p = models.CharField( max_length=50,null=False)
     imagen = models.ImageField("Imagen", upload_to='add_producto', null=True)
     valor = models.IntegerField(null=False)
 
     def __str__(self):
         return self.nombre_p
-    
 
-class Pedidos(models.Model):
-    id_producto = models.AutoField(primary_key=True)
-    cliente = models.CharField(max_length=50 , null=False)
-    email = models.CharField(max_length=50, null=50)
-    valor = models.IntegerField(validators=[MinValueValidator(0),MaxValueValidator(1000000)] ,null=False)
-    detalle = models.CharField(max_length=50, null=False)
-
-class Carrito(models.Model):
-    usuario = models.CharField(max_length=50,null=False)
-    videojuego = models.ForeignKey(Producto , on_delete=models.PROTECT)
-    valor = models.IntegerField(null=False)
-    cantidad = models.PositiveIntegerField(default=1)
-
+class Boleta (models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    fechaVenta = models.DateTimeField(auto_now_add=True)
+    cliente = models.ForeignKey(User,on_delete=models.CASCADE)
+    completada = models.BooleanField(default=False)
     def __str__(self):
-        return f'Carrito de {self.usuario} Producto: {self.videojuego.nombre_p}'
-
+        return str(self.id)
+    @property
+    def get_total(self):
+        detalle = self.detalle_boleta_set.all()
+        total = sum([item.producto.valor * item.cantidad_productos for item in detalle])
+        return total
+    @property
+    def get_item(self):
+        detalle = self.detalle_boleta_set.all()
+        total = sum([item.cantidad_productos for item in detalle])
+        return total
+    
+class Detalle_boleta (models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    boleta = models.ForeignKey(Boleta, on_delete=models.CASCADE)
+    cantidad_productos = models.IntegerField(default=0) 
+    def __str__(self):
+        return str(self.boleta.id) + '-' + self.producto.nombre_p
+    @property
+    def get_total(self):
+        total = self.producto.valor * self.cantidad_productos
+        return total
+    
 class Perfil(models.Model):
     nombre_u = models.CharField(max_length=50, null=False)
     gmail = models.CharField(max_length=50, null=False)

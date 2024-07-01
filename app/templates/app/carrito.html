@@ -1,60 +1,69 @@
 {% extends "app/base.html" %}
+{% load humanize %}
 {% load static %}
 
 {% block contenido %}
 
-
-<div class = "row">
-
-    <div class= "col-12 col-md-6 offset-md-3">
-        
-            <table class="table table-dark table-striped ">
-              <thead>
-                <tr> 
-                  <th scope="row" colspan="4" class="text-center">CARRITO</th>
-                </tr>
-                <tr>
+<div class="row">
+  <div class="col-12 col-md-6 offset-md-3">
+      <table class="table table-dark table-striped">
+          <thead>
+              <tr>
+                  <th scope="col" colspan="4" class="text-center">CARRITO</th>
+              </tr>
+              <tr>
                   <th scope="col">NOMBRE</th>
                   <th scope="col">PRECIO</th>
                   <th scope="col">CANTIDAD</th>
                   <th scope="col">ACCIONES</th>
-                </tr>
-              </thead>
-                <tbody>
-                {% if request.session.carrito.items %}
-                {% for key, value in request.session.carrito.items %}
-                    <tr>
-                        <td>{{value.nombre_p}}</td>
-                        <td>${{value.acumulado}}</td>
-                        <td>{{value.cantidad}}
-                        </td>
-                        <td>
-                          <a href="{% url 'Add' value.id %}" class="badge btn btn-success badge-dark">+</a>
-                          <a href="{% url 'Sub' value.id %}" class="badge btn btn-danger badge-dark">-</a>
+              </tr>
+          </thead>
+          <tbody>
+              {% if items %}
+                  {% for detalle in items %}
+                      <tr>
+                          <td>{{ detalle.producto.nombre_p }}</td>
+                          <td>${{ detalle.producto.valor }}</td>
+                          <td>{{ detalle.cantidad_productos }}</td>
+                          <td>
+                              <form method="post" action="{% url 'agregar_al_carrito' detalle.producto.id %}">
+                                  {% csrf_token %}
+                                  <button type="submit" class="btn btn-success">+</button>
+                              </form>
+                              <form method="post" action="{% url 'quitar_del_carrito' detalle.producto.id %}">
+                                  {% csrf_token %}
+                                  <button type="submit" class="btn btn-danger">-</button>
+                              </form>
+                              <form method="post" action="{% url 'eliminar_del_carrito' detalle.producto.id %}">
+                                  {% csrf_token %}
+                                  <button type="submit" class="btn btn-danger">Eliminar del carrito</button>
+                              </form>
+                          </td>
+                      </tr>
+                  {% endfor %}
+              {% else %}
+                  <tr>
+                      <td colspan="4">
+                          <div class="text-center">Sin Productos</div>
                       </td>
-                   </tr>
-                {% endfor %}
-                 {% else %}
-                 <tr>
-                     <td colspan="4">
-                        <div class="text-center"> Sin Productos </div>
-                    </td>
-                </tr>
-                {% endif %}
-                    <tr>
-                    <th scope="row">Total:</th>
-                    <td colspan="3">$ {{total_carrito}}</td>
-                    </tr>
-                </tbody>
-               </table>
-                <hr>
-                <div class="row text-center">
-                    <div class="col-6"><a href="{% url 'CLS' %}" class="btn btn-danger">Limpiar</a></div>
-                    <div class="col-6"><a href="{% url 'pago' %}" class="btn btn-primary">Comprar</a></div>
-                </div>
-       
-   </div>
+                  </tr>
+              {% endif %}
+              <tr>
+                  <th scope="row">Total:</th>
+                  <td colspan="3">${{ order.get_total }}</td>
+              </tr>
+          </tbody>
+      </table>
+      <hr>
+      <div class="row text-center">
+          <div class="col-6">
+              <a href="{% url 'pago' %}" class="btn btn-primary">Comprar</a>
+          </div>
+      </div>
+  </div>
 </div>
+
+
 {% endblock contenido %}
 
- 
+
