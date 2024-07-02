@@ -5,10 +5,11 @@
 
 <div class="container mt-5 content" id="admin-contenido">
     <h2 class="mt-5 titulo-blanco">Lista de Pedidos</h2>
-    <table class="table tabla-pedidos">
+    <table class="table table-dark table-striped">
         <thead>
             <tr>
                 <th class="subtitulo-blanco">Número de Pedido</th>
+                <th class="subtitulo-blanco">Cliente</th>
                 <th class="subtitulo-blanco">Total</th>
                 <th class="subtitulo-blanco">ver</th>
             </tr>
@@ -17,6 +18,7 @@
             {% for boleta in boletas  %}
             <tr>
                 <td>{{boleta.id}}</td>
+                <td>{{boleta.cliente}}</td>
                 <td>${{boleta.get_total}}</td>
                 <td><a href="{%url 'detalle_boleta' boleta.id%}">Detalles</a></td>
             </tr>

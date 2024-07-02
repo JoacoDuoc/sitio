@@ -25,18 +25,18 @@
                           <td>{{ detalle.producto.nombre_p }}</td>
                           <td>${{ detalle.producto.valor }}</td>
                           <td>{{ detalle.cantidad_productos }}</td>
-                          <td>
+                          <td class="d-flex">
                               <form method="post" action="{% url 'agregar_al_carrito' detalle.producto.id %}">
                                   {% csrf_token %}
-                                  <button type="submit" class="btn btn-success">+</button>
+                                  <button type="submit" class="btn btn-success me-1">+</button>
                               </form>
                               <form method="post" action="{% url 'quitar_del_carrito' detalle.producto.id %}">
                                   {% csrf_token %}
-                                  <button type="submit" class="btn btn-danger">-</button>
+                                  <button type="submit" class="btn btn-danger me-1">-</button>
                               </form>
                               <form method="post" action="{% url 'eliminar_del_carrito' detalle.producto.id %}">
                                   {% csrf_token %}
-                                  <button type="submit" class="btn btn-danger">Eliminar del carrito</button>
+                                  <button type="submit" class="btn btn-danger me-1"><i class="fa-solid fa-trash"></i></button>
                               </form>
                           </td>
                       </tr>
@@ -58,6 +58,7 @@
       <div class="row text-center">
           <div class="col-6">
               <a href="{% url 'pago' %}" class="btn btn-primary">Comprar</a>
+              <a href="{% url 'index' %}" class="btn btn-primary">Seguir comprando</a>
           </div>
       </div>
   </div>

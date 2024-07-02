@@ -50,7 +50,6 @@ def pago(request):
     items_carrito = order.get_item
 
     if items.count() <= 0:
-        messages.error(request,"No hay productos en tu carrito")
         return redirect('index')
     
     if request.method == 'POST':
@@ -263,5 +262,12 @@ def ver_carrito(request):
     return render(request, 'carrito.html', context)
 
 
-
+@login_required
+def compra(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    order, created = Boleta.objects.get_or_create(cliente=request.user, completada=False)
+    detalle_orden, created = Detalle_boleta.objects.get_or_create(boleta=order, producto=producto)
+    detalle_orden.cantidad_productos += 1
+    detalle_orden.save()
+    return redirect('pago')
 

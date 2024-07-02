@@ -27,10 +27,14 @@
         <div>
             <h1>{{producto.nombre_p}}</h1>
         </div>
-        <div>          
+        <div class="d-flex ">          
             <form method="post" action="{% url 'agregar_al_carrito' producto.id %}">
                 {% csrf_token %}
-                <button type="submit">Agregar al carrito</button>
+                <button type="submit" class="btn btn-primary me-2">Agregar al carrito</button>
+            </form>
+            <form method="post" action="{% url 'compra' producto.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Comprar</button>
             </form>
         </div>
     </div>
