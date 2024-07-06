@@ -1,5 +1,5 @@
 from django.shortcuts import render,  redirect, get_object_or_404
-from .models import Producto, Boleta, Detalle_boleta
+from .models import Producto, Boleta, Detalle_boleta,Deseados
 from .forms import ProductoForm,CustomUserCreationForm
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -110,9 +110,7 @@ def finpago(request):
 def filtro(request):
     return render(request, 'app/filtro.html')
 
-@login_required
-def favs(request):
-    return render(request, 'app/favs.html')
+
 
 def perfil(request):
     return render(request, 'app/perfil.html')
@@ -271,3 +269,24 @@ def compra(request, producto_id):
     detalle_orden.save()
     return redirect('pago')
 
+#Deseados
+@login_required
+def agregar_a_lista(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    lista_deseos, created = Deseados.objects.get_or_create(usuario=request.user)
+    lista_deseos.productos.add(producto)
+    lista_deseos.save()
+    return redirect('favs')
+
+@login_required
+def eliminar_de_lista(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    lista_deseos = Deseados.objects.get(usuario=request.user)
+    lista_deseos.productos.remove(producto)
+    return redirect('favs')
+
+@login_required
+def favs(request):
+    lista_deseos = Deseados.objects.get_or_create(usuario=request.user)[0]
+    productos = lista_deseos.productos.all()
+    return render(request, 'app/favs.html', {'productos': productos})

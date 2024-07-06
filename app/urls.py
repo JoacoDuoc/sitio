@@ -2,8 +2,7 @@ from django.urls import path, include
 
 from .views import index, registro, recuperar_pswd, email_recuperar_pswd, detalle_game, carrito, pago, finpago \
                  , filtro, favs, perfil, editar_perfil, historial_compra, detalle_pedido, add_producto, pedidos_adm, usuarios_adm, \
-                 productos_adm, mod_producto, delete_producto,salir, actualizarCarrito, agregar_al_carrito, eliminar_del_carrito, quitar_del_carrito, ver_carrito, detalle_boleta,compra
-
+                 productos_adm, mod_producto, delete_producto,salir, actualizarCarrito, agregar_al_carrito, eliminar_del_carrito, quitar_del_carrito, ver_carrito, detalle_boleta,compra, agregar_a_lista , eliminar_de_lista
 #URLS APP
 urlpatterns = [
     path('', index, name='index'),
@@ -15,6 +14,8 @@ urlpatterns = [
     path('finpago/', finpago, name='finpago'),
     path('filtro/', filtro, name='filtro'),
     path('favs/', favs, name='favs'),
+    path('agregar/<int:producto_id>/', agregar_a_lista, name='agregar_a_lista'),
+    path('eliminar/<int:producto_id>/', eliminar_de_lista, name='eliminar_de_lista'),
     path('perfil/', perfil, name='perfil'),
     path('editar_perfil/', editar_perfil, name='editar_perfil'),
     path('historial_compra/', historial_compra, name='historial_compra'),
