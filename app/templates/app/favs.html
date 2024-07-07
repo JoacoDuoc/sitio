@@ -6,35 +6,44 @@
     <h1>Lista de Deseos</h1>
 
     {% if productos %}
-    <ul class="list-unstyled bg-dark ">
         {% for producto in productos %}
-        <li class="d-flex mb-4">
-            <img src="{{ producto.imagen.url }}" class="mr-3" height="200" width="300" alt="{{ producto.nombre_p }}">
-            <div class="me-2 mx-2">
-                <p> But I must explain to you how all this mistaken idea of denouncing </p>
-                <p> But I must explain to you how all this mistaken idea of denouncing </p>
-                <p> But I must explain to you how all this mistaken idea of denouncing </p>
 
+        <div class="d-flex row bg-dark me- mx-1 my-2" style="border-radius: 1rem;">
+
+            <div class="col-sm-4 my-1">
+                <a href="{% url 'detalle_game' producto.id %}">
+                    <img src="{{ producto.imagen.url }}" class="card-img-top" height="200" width="300">
+                </a>
             </div>
-            <div>
-                <h3>{{ producto.nombre_p }}</h3>
-                <p>Valor: ${{ producto.valor }}</p>
-                <!-- Puedes agregar más detalles del producto si lo deseas -->
+    
+            <div class="col-sm-4">
+              <div class="my-2">
+                <h3> {{ producto.nombre_p}}</h3>
+                <p> But I must explain to you how all this mistaken idea of denouncing pleasure and
+                    praising pain
+                    was born and I will give you a complete account of the system, and expound the actual teachings of
+                    the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or
+                    avoids pleasure itself, because it is pleasure</p>
+              </div>
             </div>
-            <div class="d-flex flex-row-reverse">
-                <br>
+    
+            <div class="col-sm-4 d-flex justify-content-end">
+              <div class="my-5">
+                <h2>${{producto.valor}}</h2>
+              </div>
+              <div class="my-5 mx-4 d-flex">
+                <form method="post" action="{% url 'eliminar_de_lista' producto.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger me-1">Eliminar</button>
+                </form>
                 <form method="post" action="{% url 'agregar_al_carrito' producto.id %}">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-primary me-2">Agregar al carrito</button>
                 </form>
-                <form method="post" action="{% url 'eliminar_de_lista' producto.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger me-2">Eliminar</button>
-                </form>
+              </div>
             </div>
-        </li>
+        </div>
         {% endfor %}
-    </ul>
     {% else %}
     <p class="mt-4">No tienes productos en tu lista de deseos.</p>
     {% endif %}

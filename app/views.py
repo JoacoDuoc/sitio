@@ -111,7 +111,6 @@ def filtro(request):
     return render(request, 'app/filtro.html')
 
 
-
 def perfil(request):
     return render(request, 'app/perfil.html')
 
@@ -124,6 +123,7 @@ def historial_compra(request):
 def detalle_pedido(request):
     return render(request, 'app/detalle_pedido.html')
 
+@permission_required('app,add_producto')
 def add_producto(request):
 
     data = {
@@ -144,11 +144,13 @@ def add_producto(request):
 
     return render(request, 'app/add_producto.html', data)
 
+@permission_required('app,view_detalle_boleta')
 def pedidos_adm(request):
     boletas = Boleta.objects.filter(completada=True)
     data = {'boletas': boletas}
     return render(request,"app/pedidos_adm.html",data) 
 
+@permission_required('app,view_usuario')
 def usuarios_adm(request):
     usuarios= User.objects.all()
 
@@ -160,6 +162,14 @@ def usuarios_adm(request):
 
     return render(request, 'app/usuarios_adm.html', datos)
 
+def delete_usuarios(request, id):
+    usuarios = get_object_or_404(User, id=id)
+
+    usuarios.delete()
+    messages.success(request,"Usuario eliminado correctamente")
+    return redirect(to="usuarios_adm")
+
+@permission_required('app,view_producto')
 def productos_adm(request):
     productos = Producto.objects.all()
     page = request.GET.get('page',1)
@@ -171,6 +181,7 @@ def productos_adm(request):
 
     return render(request, 'app/productos_adm.html', data)
 
+@permission_required('app,change_producto')
 def mod_producto(request, id):
 
     producto = get_object_or_404(Producto, id=id)
@@ -191,6 +202,7 @@ def mod_producto(request, id):
 
     return render(request, 'app/mod_producto.html', data)
 
+@permission_required('app,delete_producto')
 def delete_producto(request, id):
 
     producto = get_object_or_404(Producto, id=id)
