@@ -195,15 +195,9 @@ def delete_producto(request, id):
 
     producto = get_object_or_404(Producto, id=id)
 
-    data = {
-        'form': ProductoForm(instance=producto)
-    }
-    if request.method == 'POST':
-        formulario = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
-        producto.delete()
-        messages.success(request, "Eliminado Correctamente")
-        return redirect(to="productos_adm")
-    return render(request, 'app/delete_producto.html', data)
+    producto.delete()
+    messages.success(request,"Eliminado Correctamente")
+    return redirect(to="productos_adm")
 
 def registro(request):
     data = {

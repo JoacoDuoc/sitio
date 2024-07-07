@@ -1,6 +1,28 @@
 {% extends "app/base.html" %}
 {% load static %}
 
+{% block js %}
+
+    <script>
+        function deleteProducto(id) {
+            Swal.fire({
+                "title":"Estas seguro?",
+                "text" : "Esta accion no se puede deshacer",
+                "icon" : "question",
+                "showCancelButton" : true,
+                "cancelButtonText" : "No, Cancelar",
+                "confirmButtonText" : "Si, Eliminar"
+            })
+            .then(function(result) {
+                if(result.isConfirmed) {
+                    window.location.href = "/delete_producto/"+id+"/" 
+                }
+            })
+        }
+    </script>
+
+{% endblock%}
+
 {% block contenido %}
 
         <div class="container">
@@ -31,7 +53,7 @@
                                 <td>
                                     <a href="{% url 'mod_producto' p.id %}" role="button" class="btn btn-warning text-light"><i
                                             class="fa-solid fa-pen text-white" aria-hidden="true"></i></a>
-                                    <a href="{% url 'delete_producto' p.id %}" role="button" class="btn btn-danger"><i class="fa fa-trash"
+                                    <a href="#" role="button" onclick="deleteProducto({{p.id}})" class="btn btn-danger"><i class="fa fa-trash"
                                             aria-hidden="true"></i></a>
                                 </td>
                             </tr>   
