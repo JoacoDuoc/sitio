@@ -34,7 +34,11 @@
             </form>
             <form method="post" action="{% url 'compra' producto.id %}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Comprar</button>
+                <button type="submit" class="btn btn-primary me-2">Comprar</button>
+            </form>
+            <form method="post" action="{% url 'agregar_a_lista' producto.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary me-2"><i class="fa-solid fa-star"></i></button>
             </form>
         </div>
     </div>

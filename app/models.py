@@ -51,11 +51,11 @@ class Perfil(models.Model):
     foto_perfil = models.ImageField("Imagen", upload_to='editar_perfil')
 
 class Deseados(models.Model):
-    producto = models.ForeignKey(Producto,on_delete=models.PROTECT)
-    usuario = models.CharField(max_length=50, null= False)
-    
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    productos = models.ManyToManyField('Producto')
+
     def __str__(self):
-        return f'Lista de deseados de {self.usuario} - Producto: {self.producto.nombre_p}'
+        return f"Lista de deseos de {self.usuario.username}"
 
 class Historial_c(models.Model):
     usuario = models.CharField(max_length=50, null=False)

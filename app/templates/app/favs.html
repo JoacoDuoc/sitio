@@ -2,72 +2,50 @@
 {% load static %}
 
 {% block contenido %}
+<div class="container">
+    <h1>Lista de Deseos</h1>
 
-    <div class="container my-4">
+    {% if productos %}
+        {% for producto in productos %}
 
-      <div class="row mx-1">
-        <div class="col-sm-2">
-          <img class=" img-fluid" src=" {% static 'img/profile.png' %}" >
-        </div>
-        <div class="col-sm-4">
-          <h2 class="col-sm-10 my-4">Lista de deseados del usuario</h2>
-        </div>
-      </div>
+        <div class="d-flex row bg-dark me- mx-1 my-2" style="border-radius: 1rem;">
 
-      <div class="container my-4">
-        <div class="row">   
-            <div class="col-sm-6 my-3 d-flex">
-              <input class="form-control me-2" type="text" placeholder="Search">
-              <a class="btn btn-primary" href="{% url "filtro" %}" role="button">Buscar</a>
+            <div class="col-sm-4 my-1">
+                <a href="{% url 'detalle_game' producto.id %}">
+                    <img src="{{ producto.imagen.url }}" class="card-img-top" height="200" width="300">
+                </a>
             </div>
     
-            <div class="col-sm-6 my-3">
-              <div class="dropdown ">
-                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                  Ordernar por
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url "filtro" %}">Nombre</a></li>
-                  <li><a class="dropdown-item" href="{% url "filtro" %}">Fecha</a></li>
-                  <li><a class="dropdown-item" href="{% url "filtro" %}">Categoria</a></li>
-                </ul>
+            <div class="col-sm-4">
+              <div class="my-2">
+                <h3> {{ producto.nombre_p}}</h3>
+                <p> But I must explain to you how all this mistaken idea of denouncing pleasure and
+                    praising pain
+                    was born and I will give you a complete account of the system, and expound the actual teachings of
+                    the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or
+                    avoids pleasure itself, because it is pleasure</p>
+              </div>
+            </div>
     
-                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-                  Precio
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url "filtro" %}">Menor precio a mayor</a></li>
-                  <li><a class="dropdown-item" href="{% url "filtro" %}">Mayor precio a menor</a></li>
-                </ul>
+            <div class="col-sm-4 d-flex justify-content-end">
+              <div class="my-5">
+                <h2>${{producto.valor}}</h2>
+              </div>
+              <div class="my-5 mx-4 d-flex">
+                <form method="post" action="{% url 'eliminar_de_lista' producto.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger me-1">Eliminar</button>
+                </form>
+                <form method="post" action="{% url 'agregar_al_carrito' producto.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary me-2">Agregar al carrito</button>
+                </form>
               </div>
             </div>
         </div>
-      </div>
-
-      <div class="d-flex row bg-dark me-5 mx-1 " style="border-radius: 1rem;">
-
-        <div class="col-sm-4 my-1">
-          <img src=" {% static 'img/minecraft.jpg' %}" width="300" height="200" class="img-fluid">
-        </div>
-
-        <div class="col-sm-4">
-          <div class="my-2">
-            <h3> Titulo del videojuego</h3>
-            <p> Descripcion del videojuego</p>
-            <p> Plataforma</p>
-          </div>
-        </div>
-
-        <div class="col-sm-4 d-flex justify-content-end">
-          <div class="my-5">
-            <h2>$9.000</h2>
-          </div>
-          <div class="my-5 mx-4">
-            <a class="btn btn-primary" href="{% url "carrito" %}" role="button"> Añadir al carro</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
-
+        {% endfor %}
+    {% else %}
+    <p class="mt-4">No tienes productos en tu lista de deseos.</p>
+    {% endif %}
+</div>
 {% endblock contenido %}

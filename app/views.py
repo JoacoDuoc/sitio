@@ -1,5 +1,5 @@
 from django.shortcuts import render,  redirect, get_object_or_404
-from .models import Producto, Boleta, Detalle_boleta
+from .models import Producto, Boleta, Detalle_boleta,Deseados
 from .forms import ProductoForm,CustomUserCreationForm
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -110,9 +110,6 @@ def finpago(request):
 def filtro(request):
     return render(request, 'app/filtro.html')
 
-@login_required
-def favs(request):
-    return render(request, 'app/favs.html')
 
 def perfil(request):
     return render(request, 'app/perfil.html')
@@ -126,6 +123,7 @@ def historial_compra(request):
 def detalle_pedido(request):
     return render(request, 'app/detalle_pedido.html')
 
+@permission_required('app,add_producto')
 def add_producto(request):
 
     data = {
@@ -146,11 +144,13 @@ def add_producto(request):
 
     return render(request, 'app/add_producto.html', data)
 
+@permission_required('app,view_detalle_boleta')
 def pedidos_adm(request):
     boletas = Boleta.objects.filter(completada=True)
     data = {'boletas': boletas}
     return render(request,"app/pedidos_adm.html",data) 
 
+@permission_required('app,view_usuario')
 def usuarios_adm(request):
     usuarios= User.objects.all()
 
@@ -162,6 +162,14 @@ def usuarios_adm(request):
 
     return render(request, 'app/usuarios_adm.html', datos)
 
+def delete_usuarios(request, id):
+    usuarios = get_object_or_404(User, id=id)
+
+    usuarios.delete()
+    messages.success(request,"Usuario eliminado correctamente")
+    return redirect(to="usuarios_adm")
+
+@permission_required('app,view_producto')
 def productos_adm(request):
     productos = Producto.objects.all()
     page = request.GET.get('page',1)
@@ -173,6 +181,7 @@ def productos_adm(request):
 
     return render(request, 'app/productos_adm.html', data)
 
+@permission_required('app,change_producto')
 def mod_producto(request, id):
 
     producto = get_object_or_404(Producto, id=id)
@@ -193,19 +202,14 @@ def mod_producto(request, id):
 
     return render(request, 'app/mod_producto.html', data)
 
+@permission_required('app,delete_producto')
 def delete_producto(request, id):
 
     producto = get_object_or_404(Producto, id=id)
 
-    data = {
-        'form': ProductoForm(instance=producto)
-    }
-    if request.method == 'POST':
-        formulario = ProductoForm(data=request.POST, instance=producto, files=request.FILES)
-        producto.delete()
-        messages.success(request, "Eliminado Correctamente")
-        return redirect(to="productos_adm")
-    return render(request, 'app/delete_producto.html', data)
+    producto.delete()
+    messages.success(request,"Eliminado Correctamente")
+    return redirect(to="productos_adm")
 
 def registro(request):
     data = {
@@ -271,3 +275,24 @@ def compra(request, producto_id):
     detalle_orden.save()
     return redirect('pago')
 
+#Deseados
+@login_required
+def agregar_a_lista(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    lista_deseos, created = Deseados.objects.get_or_create(usuario=request.user)
+    lista_deseos.productos.add(producto)
+    lista_deseos.save()
+    return redirect('favs')
+
+@login_required
+def eliminar_de_lista(request, producto_id):
+    producto = get_object_or_404(Producto, id=producto_id)
+    lista_deseos = Deseados.objects.get(usuario=request.user)
+    lista_deseos.productos.remove(producto)
+    return redirect('favs')
+
+@login_required
+def favs(request):
+    lista_deseos = Deseados.objects.get_or_create(usuario=request.user)[0]
+    productos = lista_deseos.productos.all()
+    return render(request, 'app/favs.html', {'productos': productos})
