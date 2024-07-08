@@ -9,6 +9,7 @@ import uuid
 class Producto(models.Model):
     id=models.IntegerField( primary_key=True ,default=uuid.uuid4, null=False)
     nombre_p = models.CharField( max_length=50,null=False)
+    desc = models.CharField( max_length=500,default = 'Sin descripcion',null=False)
     imagen = models.ImageField("Imagen", upload_to='add_producto', null=True)
     valor = models.IntegerField(null=False)
 
@@ -16,10 +17,18 @@ class Producto(models.Model):
         return self.nombre_p
 
 class Boleta (models.Model):
+    ESTADOS_BOLETA = [
+        ('pendiente', 'Pendiente'),
+        ('procesando', 'Procesando'),
+        ('enviado', 'Enviado'),
+        ('entregado', 'Entregado'),
+    ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     fechaVenta = models.DateTimeField(auto_now_add=True)
     cliente = models.ForeignKey(User,on_delete=models.CASCADE)
     completada = models.BooleanField(default=False)
+    estado = models.CharField(max_length=20, choices=ESTADOS_BOLETA, default='pendiente')
     def __str__(self):
         return str(self.id)
     @property
@@ -43,12 +52,6 @@ class Detalle_boleta (models.Model):
     def get_total(self):
         total = self.producto.valor * self.cantidad_productos
         return total
-    
-class Perfil(models.Model):
-    nombre_u = models.CharField(max_length=50, null=False)
-    gmail = models.CharField(max_length=50, null=False)
-    descripcion = models.CharField(max_length=50, null=False)
-    foto_perfil = models.ImageField("Imagen", upload_to='editar_perfil')
 
 class Deseados(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)

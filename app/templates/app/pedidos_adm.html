@@ -11,20 +11,32 @@
                 <th class="subtitulo-blanco">Número de Pedido</th>
                 <th class="subtitulo-blanco">Cliente</th>
                 <th class="subtitulo-blanco">Total</th>
-                <th class="subtitulo-blanco">ver</th>
+                <th class="subtitulo-blanco">Ver</th>
+                <th class="subtitulo-blanco">Actualizar Estado</th>
             </tr>
         </thead>
         <tbody>
-            {% for boleta in boletas  %}
+            {% for boleta in boletas %}
             <tr>
-                <td>{{boleta.id}}</td>
-                <td>{{boleta.cliente}}</td>
-                <td>${{boleta.get_total}}</td>
-                <td><a href="{%url 'detalle_boleta' boleta.id%}">Detalles</a></td>
+                <td>{{ boleta.id }}</td>
+                <td>{{ boleta.cliente }}</td>
+                <td>${{ boleta.get_total }}</td>
+                <td><a href="{% url 'detalle_boleta' boleta.id %}">Detalles</a></td>
+                <td>
+                    <form class= "d-flex" method="POST" action="{% url 'actualizar_estado_boleta' boleta.id %}">
+                        {% csrf_token %}
+                        <select name="estado" class="form-select">
+                            {% for key, value in boleta.ESTADOS_BOLETA %}
+                                <option value="{{ key }}" {% if boleta.estado == key %}selected{% endif %}>{{ value }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-primary mt-1">Actualizar</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    </div>
+</div>
 
 {% endblock contenido %}

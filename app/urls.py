@@ -1,9 +1,9 @@
 from django.urls import path, include
 
 from .views import index, registro, recuperar_pswd, email_recuperar_pswd, detalle_game, carrito, pago, finpago \
-                 , filtro, favs, perfil, editar_perfil, historial_compra, detalle_pedido, add_producto, pedidos_adm, usuarios_adm, \
+                 , filtro, favs, perfil, historial_compra, detalle_pedido, add_producto, pedidos_adm, usuarios_adm, \
                  productos_adm, mod_producto, delete_producto,salir, actualizarCarrito, agregar_al_carrito, eliminar_del_carrito, \
-                 quitar_del_carrito, ver_carrito, detalle_boleta,compra, agregar_a_lista , eliminar_de_lista ,delete_usuarios
+                 quitar_del_carrito, ver_carrito, detalle_boleta,compra, agregar_a_lista , eliminar_de_lista ,delete_usuarios, actualizar_estado_boleta
 #URLS APP
 urlpatterns = [
     path('', index, name='index'),
@@ -17,8 +17,7 @@ urlpatterns = [
     path('favs/', favs, name='favs'),
     path('agregar/<int:producto_id>/', agregar_a_lista, name='agregar_a_lista'),
     path('eliminar/<int:producto_id>/', eliminar_de_lista, name='eliminar_de_lista'),
-    path('perfil/', perfil, name='perfil'),
-    path('editar_perfil/', editar_perfil, name='editar_perfil'),
+    path('perfil/<id>', perfil, name='perfil'),
     path('historial_compra/', historial_compra, name='historial_compra'),
     path('detalle_pedido/', detalle_pedido, name='detalle_pedido'),
     path('add_producto/', add_producto, name='add_producto'),
@@ -37,5 +36,6 @@ urlpatterns = [
     path('ver-carrito/', ver_carrito, name='ver_carrito'),
     path('detalle_boleta/<id>', detalle_boleta, name='detalle_boleta'),
     path('compra/<int:producto_id>/', compra, name='compra'),
+    path('actualizar_estado_boleta/<uuid:boleta_id>/', actualizar_estado_boleta, name='actualizar_estado_boleta'),
 
 ]

@@ -1,10 +1,10 @@
-from django.shortcuts import render,  redirect, get_object_or_404
+from django.shortcuts import render,  redirect, get_object_or_404, PasswordChangeForm
 from .models import Producto, Boleta, Detalle_boleta,Deseados
 from .forms import ProductoForm,CustomUserCreationForm
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.http import Http404
-from django.contrib.auth import logout 
+from django.contrib.auth import logout , update_session_auth_hash
 from django.contrib.auth import authenticate , login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
@@ -13,6 +13,20 @@ import json
 from django.http import JsonResponse , HttpResponse
 
 # Create your views here.\
+def cambiar_contraseña(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Actualiza la sesión del usuario
+            messages.success(request, 'Tu contraseña ha sido actualizada correctamente.')
+            return redirect('cambiar_contraseña')
+        else:
+            messages.error(request, 'Por favor, corrige los errores.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'cambiar_contraseña.html', {'form': form})
+
 def salir(request):
     logout(request)
     messages.info(request,'Sesion Cerrada')
@@ -61,7 +75,6 @@ def pago(request):
     return render(request,"app/pago.html", context)
 
 @login_required
-@permission_required("pagina.view_user",raise_exception=True)
 def detalle_boleta(request,id):
     boleta = Boleta.objects.get(id=id)
     productos = Detalle_boleta.objects.filter(boleta=boleta)
@@ -111,14 +124,21 @@ def filtro(request):
     return render(request, 'app/filtro.html')
 
 
-def perfil(request):
-    return render(request, 'app/perfil.html')
+def perfil(request, id):
+    usuario=get_object_or_404(User,id=id)
+    datos = {
 
-def editar_perfil(request):
-    return render(request, 'app/editar_perfil.html')
+        "usuario":usuario
+    }
+    return render(request, 'app/perfil.html', datos)
 
 def historial_compra(request):
-    return render(request, 'app/historial_compra.html')
+    boletas = Boleta.objects.filter(cliente=request.user)
+    
+    data = {
+        'boletas': boletas
+    }
+    return render(request, 'app/historial_compra.html', data)
 
 def detalle_pedido(request):
     return render(request, 'app/detalle_pedido.html')
@@ -296,3 +316,13 @@ def favs(request):
     lista_deseos = Deseados.objects.get_or_create(usuario=request.user)[0]
     productos = lista_deseos.productos.all()
     return render(request, 'app/favs.html', {'productos': productos})
+
+@require_POST
+def actualizar_estado_boleta(request, boleta_id):
+    boleta = get_object_or_404(Boleta, id=boleta_id)
+    nuevo_estado = request.POST.get('estado')
+    if nuevo_estado and nuevo_estado in dict(Boleta.ESTADOS_BOLETA).keys():
+        boleta.estado = nuevo_estado
+        boleta.save()
+        return redirect('pedidos_adm')
+    return HttpResponse(status=400) 

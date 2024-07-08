@@ -34,7 +34,7 @@
                                     <i class="fa-solid fa-right-to-bracket"></i> Cerrar sesion</a>
                             <li>
                             <li>
-                                <a class="nav-link" href="{% url "perfil" %}"> <i class="fa-solid fa-user"> {{ user.username }}</i>  </a>
+                                <a class="nav-link" href="{% url "perfil" user.id %}"> <i class="fa-solid fa-user"> {{ user.username }}</i>  </a>
                             <li>
                         {% else %}
                             <li class="nav-item">
