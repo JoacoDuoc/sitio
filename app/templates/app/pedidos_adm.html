@@ -12,6 +12,7 @@
                 <th class="subtitulo-blanco">Cliente</th>
                 <th class="subtitulo-blanco">Total</th>
                 <th class="subtitulo-blanco">ver</th>
+                <th class="subtitulo-blanco">Estado</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,21 @@
                 <td>{{boleta.cliente}}</td>
                 <td>${{boleta.get_total}}</td>
                 <td><a href="{%url 'detalle_boleta' boleta.id%}">Detalles</a></td>
+                <td>{{ boleta.get_estado_display }}
+                    {% if boleta.completada %}
+                        <p>Esta boleta está completada.</p>
+                    {% else %}
+                        <p>Esta boleta no está completada.</p>
+                    {% endif %}
+
+                    <form method="post">
+                    {% csrf_token %}
+                    {% if not boleta.completada %}
+                        <button type="submit" name="marcar_completada">Marcar como completada</button>
+                    {% endif %}
+                        <button type="submit" name="cancelar">Cancelar boleta</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>

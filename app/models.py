@@ -16,10 +16,18 @@ class Producto(models.Model):
         return self.nombre_p
 
 class Boleta (models.Model):
+    ESTADO_CHOICES = (
+        ('pendiente', 'Pendiente'),
+        ('completada', 'Completada'),
+        ('cancelada', 'Cancelada'),
+    )
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     fechaVenta = models.DateTimeField(auto_now_add=True)
     cliente = models.ForeignKey(User,on_delete=models.CASCADE)
     completada = models.BooleanField(default=False)
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente')
+
     def __str__(self):
         return str(self.id)
     @property
@@ -32,6 +40,16 @@ class Boleta (models.Model):
         detalle = self.detalle_boleta_set.all()
         total = sum([item.cantidad_productos for item in detalle])
         return total
+    
+    def marcar_completada(self):
+        self.completada = True
+        self.estado = 'completada'
+        self.save()
+
+    def cancelar(self):
+        self.estado = 'cancelada'
+        self.save()
+    
     
 class Detalle_boleta (models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)

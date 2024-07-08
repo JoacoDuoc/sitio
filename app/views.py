@@ -145,8 +145,16 @@ def add_producto(request):
     return render(request, 'app/add_producto.html', data)
 
 @permission_required('app,view_detalle_boleta')
-def pedidos_adm(request):
-    boletas = Boleta.objects.filter(completada=True)
+def pedidos_adm(request , boleta_id):
+    boletas = get_object_or_404(Boleta, id=boleta_id)
+    if request.method == 'POST':
+        if 'marcar_completada' in request.POST:
+            boletas.marcar_completada()
+            return redirect('pedidos_adm', boleta_id= boleta_id)
+        elif 'cancelar' in request.POST:
+            boletas.cancelar()
+            return redirect('pedidos_adm', boleta_id= boleta_id)
+
     data = {'boletas': boletas}
     return render(request,"app/pedidos_adm.html",data) 
 
