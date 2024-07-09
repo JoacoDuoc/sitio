@@ -5,7 +5,7 @@ from .views import index, registro,  detalle_game, carrito, pago, finpago \
                  , filtro, favs, perfil, historial_compra, detalle_pedido, add_producto, pedidos_adm, usuarios_adm, \
                  productos_adm, mod_producto, delete_producto,salir, actualizarCarrito, agregar_al_carrito, eliminar_del_carrito, \
                  quitar_del_carrito, ver_carrito, detalle_boleta,compra, agregar_a_lista , eliminar_de_lista ,delete_usuarios, \
-                actualizar_estado_boleta , cambiar_contraseña , contraseña_cambiada_exitosamente
+                actualizar_estado_boleta , cambiar_contraseña
 #URLS APP
 urlpatterns = [
     path('', index, name='index'),
@@ -38,6 +38,5 @@ urlpatterns = [
     path('compra/<int:producto_id>/', compra, name='compra'),
     path('actualizar_estado_boleta/<uuid:boleta_id>/', actualizar_estado_boleta, name='actualizar_estado_boleta'),
     path('cambiar-contraseña/', cambiar_contraseña, name='cambiar_contraseña'),
-    path('contraseña_cambiada_exitosamente/', contraseña_cambiada_exitosamente, name='contraseña_cambiada_exitosamente'),
 
 ]

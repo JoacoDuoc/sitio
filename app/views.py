@@ -30,10 +30,6 @@ def index(request):
     }
     return render(request, 'app/index.html', data)
 
-
-def contraseña_cambiada_exitosamente(request):
-    return render(request, 'app/contraseña_cambiada_exitosamente.html')
-
 def detalle_game(request, id):
     producto=get_object_or_404(Producto,id=id)
     datos = {
