@@ -10,8 +10,7 @@
 </head>
 
 <body>
-
-  <section class="vh-100 gradient-custom">
+  <section class="vh-120 gradient-custom">
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -19,19 +18,22 @@
             <div class="card-body p-5 text-center">
 
               <div class="mb-md-5 mt-md-4 pb-5">
+                  <h2 class="fw-bold mb-2 text-uppercase">Cambia tu contraseña!</h2>
 
-                <h2 class="fw-bold mb-2 text-uppercase">Correo de recuperación enviado!</h2>
-                <h4 class="text-white-50 mb-5">Siga los pasos enviados al correo</h4>
-
+                  <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-primary mx-2" type="submit">Cambiar Contraseña</button>
+                </form>
+                    
+              </div>
 
             </div>
-
-            <a href="{% url "index" %}"><button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5" type="submit">Volver al Inicio</button></a>
           </div>
         </div>
       </div>
     </div>
-
-  </body>
+    <script src="js/Form_Sesion.js"></script>
+</body>
 
   </html>

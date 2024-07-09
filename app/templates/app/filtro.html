@@ -3,49 +3,38 @@
 
 {% block contenido %}
 
-  <div class="container my-4">
-    <div class="row">   
-        <div class="col-sm-6 my-3 d-flex">
-          <input class="form-control me-2" type="text" placeholder="Search">
-          <a class="btn btn-primary" href="{% url "filtro" %}" role="button">Buscar</a>
+<div class="container">
+  <h2>Resultados de búsqueda</h2>
+  <ul>
+      {% for producto in productos %}
+      <div class="d-flex row bg-dark me- mx-1 my-2" style="border-radius: 1rem;">
+
+        <div class="col-sm-4 my-1">
+            <a href="{% url 'detalle_game' producto.id %}">
+                <img src="{{ producto.imagen.url }}" class="card-img-top" height="200" width="300">
+            </a>
         </div>
 
-        <div class="col-sm-6 my-3">
-          <div class="dropdown ">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-              Ordernar por
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url "filtro" %}">Nombre</a></li>
-              <li><a class="dropdown-item" href="{% url "filtro" %}">Fecha</a></li>
-              <li><a class="dropdown-item" href="{% url "filtro" %}">Categoria</a></li>
-            </ul>
-
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
-              Precio
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{% url "filtro" %}">Menor precio a mayor</a></li>
-              <li><a class="dropdown-item" href="{% url "filtro" %}">Mayor precio a menor</a></li>
-            </ul>
+        <div class="col-sm-4">
+          <div class="my-2">
+            <h3> {{ producto.nombre_p}}</h3>
+            <p> {{ p.desc}}</p>
           </div>
         </div>
-    </div>
-  </div>
 
-  <div class="container ">
-      <div class=" p-3 text-white d-flex justify-content-between bg-dark" style="border-radius: 1rem;">
-            <a href="{% url "detalle_game" %}"> <img class="img-fluid" src=" {% static 'img/minecraft.jpg' %}" height="100" width="200"></a>
-            <div class="mx-2">
-                <p> Detalles del videojuego</p>
-            </div>
-            
-            <h4 >$9.000</h4>
-            <div class="mx-2 justify-content-end ">
-                <a href="{% url "pago" %}"> <button type="button" class=" btn btn-secondary mx-2 my-1"> Comprar </button> </a>
-                <a href="{% url "carrito" %}"> <button type="button" class=" btn btn-secondary  my-1"> Agregar carro</button> </a>
-            </div>
-      </div>  
-  </div>
+        <div class="col-sm-4 d-flex justify-content-end">
+          <div class="my-5">
+            <h2>${{producto.valor}}</h2>
+          </div>
+          <div class="my-5 mx-4">
+            <a class="btn btn-primary" role="button" href="{% url 'detalle_game' producto.id %}"> Detalles</a>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+          <li>No se encontraron productos</li>
+      {% endfor %}
+  </ul>
+</div>
 
 {%endblock contenido%}  
