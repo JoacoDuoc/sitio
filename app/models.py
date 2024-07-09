@@ -19,9 +19,9 @@ class Producto(models.Model):
 class Boleta (models.Model):
     ESTADOS_BOLETA = [
         ('pendiente', 'Pendiente'),
-        ('procesando', 'Procesando'),
         ('enviado', 'Enviado'),
         ('entregado', 'Entregado'),
+        ('cancelado', 'Cancelado')
     ]
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
