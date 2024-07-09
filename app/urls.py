@@ -1,14 +1,14 @@
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
 
-from .views import index, registro, recuperar_pswd, email_recuperar_pswd, detalle_game, carrito, pago, finpago \
+from .views import index, registro,  detalle_game, carrito, pago, finpago \
                  , filtro, favs, perfil, historial_compra, detalle_pedido, add_producto, pedidos_adm, usuarios_adm, \
                  productos_adm, mod_producto, delete_producto,salir, actualizarCarrito, agregar_al_carrito, eliminar_del_carrito, \
-                 quitar_del_carrito, ver_carrito, detalle_boleta,compra, agregar_a_lista , eliminar_de_lista ,delete_usuarios, actualizar_estado_boleta
+                 quitar_del_carrito, ver_carrito, detalle_boleta,compra, agregar_a_lista , eliminar_de_lista ,delete_usuarios, \
+                actualizar_estado_boleta , cambiar_contraseña , contraseña_cambiada_exitosamente
 #URLS APP
 urlpatterns = [
     path('', index, name='index'),
-    path('recuperar_pswd/', recuperar_pswd, name='recuperar_pswd'),
-    path('email_recuperar_pswd/', email_recuperar_pswd, name='email_recuperar_pswd'),
     path('detalle_game/<id>/', detalle_game, name='detalle_game'),
     path('carrito/', carrito, name='carrito'),
     path('pago/', pago, name='pago'),
@@ -37,5 +37,7 @@ urlpatterns = [
     path('detalle_boleta/<id>', detalle_boleta, name='detalle_boleta'),
     path('compra/<int:producto_id>/', compra, name='compra'),
     path('actualizar_estado_boleta/<uuid:boleta_id>/', actualizar_estado_boleta, name='actualizar_estado_boleta'),
+    path('cambiar-contraseña/', cambiar_contraseña, name='cambiar_contraseña'),
+    path('contraseña_cambiada_exitosamente/', contraseña_cambiada_exitosamente, name='contraseña_cambiada_exitosamente'),
 
 ]

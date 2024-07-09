@@ -76,9 +76,9 @@
                     </ul>
                 </div>
                 <div class="nav-item">
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="text" placeholder="Buscar">
-                        <a class="btn btn-primary" href="{% url "filtro" %}" role="button">Buscar</a>
+                    <form class="d-flex" action="{% url 'filtro' %}" method="GET">
+                        <input class="form-control me-2" type="text" name="q" placeholder="Buscar por nombre">
+                        <button class="btn btn-primary" type="submit">Buscar</button>
                     </form>
                 </div>
             </div>

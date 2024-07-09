@@ -1,4 +1,4 @@
-from django.shortcuts import render,  redirect, get_object_or_404, PasswordChangeForm
+from django.shortcuts import render,  redirect, get_object_or_404
 from .models import Producto, Boleta, Detalle_boleta,Deseados
 from .forms import ProductoForm,CustomUserCreationForm
 from django.contrib import messages
@@ -11,21 +11,9 @@ from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 import json
 from django.http import JsonResponse , HttpResponse
+from django.contrib.auth.forms import PasswordChangeForm
 
 # Create your views here.\
-def cambiar_contraseña(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
-        if form.is_valid():
-            user = form.save()
-            update_session_auth_hash(request, user)  # Actualiza la sesión del usuario
-            messages.success(request, 'Tu contraseña ha sido actualizada correctamente.')
-            return redirect('cambiar_contraseña')
-        else:
-            messages.error(request, 'Por favor, corrige los errores.')
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'cambiar_contraseña.html', {'form': form})
 
 def salir(request):
     logout(request)
@@ -42,11 +30,9 @@ def index(request):
     }
     return render(request, 'app/index.html', data)
 
-def recuperar_pswd(request):
-    return render(request, 'app/recuperar_pswd.html')
 
-def email_recuperar_pswd(request):
-    return render(request, 'app/email_recuperar_pswd.html')
+def contraseña_cambiada_exitosamente(request):
+    return render(request, 'app/contraseña_cambiada_exitosamente.html')
 
 def detalle_game(request, id):
     producto=get_object_or_404(Producto,id=id)
@@ -121,9 +107,19 @@ def finpago(request):
     return render(request, 'app/finpago.html')
 
 def filtro(request):
-    return render(request, 'app/filtro.html')
+    query = request.GET.get('q')
+    if query:
+        # Ajusta el nombre del campo según tu modelo
+        productos = Producto.objects.filter(nombre_p__icontains=query)
+    else:
+        productos = Producto.objects.all()
+    
+    context = {
+        'productos': productos
+    }
+    return render(request, 'app/filtro.html', context)
 
-
+@login_required
 def perfil(request, id):
     usuario=get_object_or_404(User,id=id)
     datos = {
@@ -326,3 +322,16 @@ def actualizar_estado_boleta(request, boleta_id):
         boleta.save()
         return redirect('pedidos_adm')
     return HttpResponse(status=400) 
+
+@login_required
+def cambiar_contraseña(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Tu contraseña ha sido cambiada exitosamente.')
+            return redirect('index')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'app/cambiar_contraseña.html', {'form': form})
